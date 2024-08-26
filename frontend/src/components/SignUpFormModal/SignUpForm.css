@@ -1,0 +1,21 @@
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sign-input {
+    margin: 1em
+}
+
+.sUButt {
+    color: white;
+    background-color: brown;
+    font-size: 1.5em;
+    padding: .5em;
+}
+
+.hover:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

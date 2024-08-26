@@ -1,0 +1,82 @@
+.nav-li {
+	display: flex;
+	justify-content: space-around;
+	list-style: none;
+	font-size: xx-large;
+	align-items: start;
+	background-color: brown;
+	margin: 0;
+	border: 0;
+}
+
+.nav-li-user {
+	display: flex;
+	justify-content: space-between;
+	list-style: none;
+	font-size: xx-large;
+	align-items: start;
+	background-color: brown;
+	margin: 0;
+	border: 0;
+}
+
+.lOButt {
+	background-color: bisque;
+	color: brown;
+	padding: 0.5em;
+	font-size: 0.7em;
+	border: 1px solid rgb(136, 74, 74);
+}
+
+.lOButt:hover {
+	cursor: pointer;
+}
+
+li {
+	font-size: 2.5rem;
+	margin: 0.5rem;
+}
+
+.div {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.profile-dropdown {
+	display: flex;
+	flex-direction: column;
+    align-items: end;
+	width:max-content;
+	list-style-type: circle;
+	color: bisque;
+	list-style: none;
+}
+
+.profile-dropdown.hidden {
+	display: none; /* hides the dropdown */
+}
+
+.user {
+	background: none;
+	border: none;
+}
+
+.hover {
+    margin : .2rem;
+}
+
+.hover.hidden {
+    margin : .2rem;
+    display: flex;
+    justify-self:right;
+}
+
+a {
+	color: bisque;
+	text-decoration: none;
+}
+
+.home:hover {
+	text-decoration: underline;
+}

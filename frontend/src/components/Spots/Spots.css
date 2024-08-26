@@ -1,0 +1,36 @@
+/* div, span {
+    border: 1px solid red;
+} */
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tile,
+.info,
+.ratings,
+.price {
+    display: flex;
+}
+
+.info,
+.ratings,
+.price {
+    align-items: center;
+}
+
+.tile {
+    flex-direction: column;
+    width:fit-content;
+}
+
+[role="tooltip"] {
+    display: none;
+}
+
+.tile:hover + [role="tooltip"]
+.tile:focus + [role="tooltip"] {
+    position: relative;
+    display: block;
+}
