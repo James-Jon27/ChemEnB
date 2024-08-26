@@ -32,17 +32,17 @@ export default function Spots() {
 								<div role="tooltip" id="name">
 									{name}
 								</div>
-								<img src={previewImage} alt={name} style={{ width: "25rem" }} />
+								<img className="spotImg" src={previewImage} alt={name} style={{ width: "25rem" }} />
 								<span className="info">
-									<h5>
+									<p style={{fontSize: "large", fontWeight: "bold"}}>
 										{city}, {state}
-									</h5>
+									</p>
 									<span className="ratings">
-										<MdStars />
+										<MdStars style={{display: "flex", justifyContent : "center"}}/>
 										<p>{avgStarRating}</p>
 									</span>
 								</span>
-								<span className="price">{price}<p>/night</p></span>
+								<span className="price"><h2>{price}</h2><p>/night</p></span>
 							</div>
 						</Link>
 					);

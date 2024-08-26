@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { TfiAlignJustify } from "react-icons/tfi";
 import * as sessionActions from "../../store/session";
+import { Link } from "react-router-dom";
 
 function ProfileButton({ user }) {
 	const dispatch = useDispatch();
@@ -37,17 +38,23 @@ function ProfileButton({ user }) {
 	const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
 	return (
+	<div style={{display: "flex", gap: "20px"}}>
+			<Link to="/spots/new" style={{position : "sticky"}}>Create a Spot</Link>
 		<div className="div">
 			<button className="user" onClick={toggleMenu}>
 				<TfiAlignJustify className="hover" style={{ color: "bisque", width: "3rem", height: "auto", paddingTop: "0" }} />
 				<FaUserCircle className="hover" style={{ color: "bisque", width: "3rem", height: "auto", paddingTop: "0" }} />
 			</button>
 			<ul className={ulClassName} ref={ulRef}>
-				<li>
-					Hello, {user.firstName} {user.lastName}
-				</li>
-				<li>{user.username}</li>
+				<li>Hello, {user.firstName}</li>
 				<li>{user.email}</li>
+				<p style={{padding: "0", margin: "0", border: "0"}}>--------------------------</p>
+				<li>
+					<button className="manage">Manage Labs</button>
+				</li>
+				<li>
+					<button className="manage">Manage Reviews</button>
+				</li>
 				<li>
 					<button className="lOButt" onClick={logout}>
 						Log Out
@@ -55,6 +62,7 @@ function ProfileButton({ user }) {
 				</li>
 			</ul>
 		</div>
+	</div>
 	);
 }
 
