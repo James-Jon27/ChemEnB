@@ -3,6 +3,10 @@ import { csrfFetch } from "./csrf";
 const initialState = {};
 const LOAD = "spots/LOAD";
 const LOAD_ONE = "spots/DETAILS";
+const CREATE = "spots/CREATE";
+const MANAGE = "spots/CURR_USER";
+const DELETE = "spots/DELETE";
+const UPDATE = "spots/UPDATE";
 
 const load = (spots) => {
 	return {
@@ -18,6 +22,13 @@ const loadOne = (spot) => {
 	};
 };
 
+const create = (spot) => {
+	return {
+		type: CREATE,
+		payload: spot,
+	};
+};
+
 export const getSpot = () => async (dispatch) => {
 	const res = await csrfFetch(`/api/spots`);
 	if (res.ok) {
@@ -28,25 +39,33 @@ export const getSpot = () => async (dispatch) => {
 };
 
 export const getOneSpot = (id) => async (dispatch) => {
-	const res = await csrfFetch(`/api/spots/${id}`);
-	if (res.ok) {
-		const data = await res.json();
-		dispatch(loadOne(data[0]));
-		return data[0];
+	try {
+		const res = await csrfFetch(`/api/spots/${id}`);
+		if (res.ok) {
+			const data = await res.json();
+			dispatch(loadOne(data[0]));
+			return data[0];
+		}
+	} catch (e) {
+		return e;
 	}
+};
+
+export const newSpot = (spot) => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots`);
 };
 
 export default function spotsReducer(state = initialState, action) {
 	switch (action.type) {
 		case LOAD: {
 			const allSpots = {};
-			action.payload.forEach((spot) => allSpots[spot.id] = spot);
+			action.payload.forEach((spot) => (allSpots[spot.id] = spot));
 
 			return allSpots;
 		}
 
 		case LOAD_ONE: {
-			const newState = {...state, detail: action.payload};
+			const newState = { ...state, detail: action.payload };
 			return newState;
 		}
 

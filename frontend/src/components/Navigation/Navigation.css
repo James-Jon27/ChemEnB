@@ -1,18 +1,16 @@
 .nav-li {
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	list-style: none;
 	font-size: xx-large;
 	align-items: start;
 	background-color: brown;
 	margin: 0;
 	border: 0;
+	padding: 0;
 }
 
 .nav-li-user {
-	margin: 0;
-		padding: 0;
-	border: 0;
 	display: flex;
 	justify-content: space-between;
 	list-style: none;
@@ -21,6 +19,7 @@
 	background-color: brown;
 	margin: 0;
 	border: 0;
+	padding: 0;
 }
 
 .manage {
@@ -60,6 +59,9 @@ li {
 }
 
 .profile-dropdown {
+	position:absolute;
+	top: 65px;
+	background-color: brown;
 	display: flex;
 	flex-direction: column;
 	align-items: end;
