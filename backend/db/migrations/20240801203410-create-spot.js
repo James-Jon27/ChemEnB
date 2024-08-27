@@ -75,7 +75,7 @@ module.exports = {
     options.tableName = "Spots";
     await queryInterface.addIndex(
       options,
-      ["address", "city", "state", "lat", "lng"],
+      ["address", "city", "state"],
       { unique: true }
     );
   },
@@ -83,7 +83,7 @@ module.exports = {
     options.tableName = "Spots";
     await queryInterface.removeIndex(
       options,
-      ["address", "city", "state", "lat", "lng"],
+      ["address", "city", "state"],
       { unique: true }
     );
     await queryInterface.dropTable(options);

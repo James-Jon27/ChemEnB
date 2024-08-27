@@ -39,9 +39,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       lat: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
         validate: {
           checkSize(lat) {
+            if(lat === 1) return;
             if (lat < -90 || lat > 90) {
               throw new Error("Latitude must be within -90 and 90");
             }
@@ -50,9 +51,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       lng: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
         validate: {
           checkSize(lng) {
+            if(lng === 1) return;
             if (lng < -180 || lng > 180) {
               throw new Error("Longitude must be within -180 and 180");
             }
