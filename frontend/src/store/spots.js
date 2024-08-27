@@ -3,10 +3,10 @@ import { csrfFetch } from "./csrf";
 const initialState = {};
 const LOAD = "spots/LOAD";
 const LOAD_ONE = "spots/DETAILS";
-const CREATE = "spots/CREATE";
-const MANAGE = "spots/CURR_USER";
-const DELETE = "spots/DELETE";
-const UPDATE = "spots/UPDATE";
+// const CREATE = "spots/CREATE";
+// const MANAGE = "spots/CURR_USER";
+// const DELETE = "spots/DELETE";
+// const UPDATE = "spots/UPDATE";
 
 const load = (spots) => {
 	return {
@@ -22,12 +22,12 @@ const loadOne = (spot) => {
 	};
 };
 
-const create = (spot) => {
-	return {
-		type: CREATE,
-		payload: spot,
-	};
-};
+// const create = (spot) => {
+// 	return {
+// 		type: CREATE,
+// 		payload: spot,
+// 	};
+// };
 
 export const getSpot = () => async (dispatch) => {
 	const res = await csrfFetch(`/api/spots`);
@@ -51,9 +51,9 @@ export const getOneSpot = (id) => async (dispatch) => {
 	}
 };
 
-export const newSpot = (spot) => async (dispatch) => {
-	const res = await csrfFetch(`/api/spots`);
-};
+// export const newSpot = (spot) => async (dispatch) => {
+// 	const res = await csrfFetch(`/api/spots`);
+// };
 
 export default function spotsReducer(state = initialState, action) {
 	switch (action.type) {
