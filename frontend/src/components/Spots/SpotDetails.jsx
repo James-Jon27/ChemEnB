@@ -10,12 +10,14 @@ export default function SpotDetails() {
 	const { id } = useParams();
 	const spot = useSelector((state) => state.spots.detail);
 	useEffect(() => {
-		dispatch(spotActions.getOneSpot(id));
+		dispatch(spotActions.getOneSpot(id))
 	}, [dispatch, id]);
 
 	if (!spot) {
 		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;
 	}
+
+
 
 	const { name, city, state, country, SpotImages, Owner, description, price, avgStarRating, numReviews } = spot;
 	const preCheck = (preview) => (preview ? "preview" : "image");
