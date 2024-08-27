@@ -1,47 +1,36 @@
 html {
-    background-color: bisque;
-    font-family: 'Times New Roman', Times, serif;
+	background-color: bisque;
+	font-family: "Times New Roman", Times, serif;
 }
 
-.login-page{
-    background-color: bisque;
-    padding: 5em;
-    padding-top: 3em;
+.login-page {
+	background-color: bisque;
+	padding: 5em;
+	padding-top: 3em;
 }
 
 .login {
-    color: brown;
-    text-decoration: underline;
-    text-shadow: 1em;
+	color: brown;
+	text-decoration: underline;
+	text-shadow: 1em;
 }
 
 .lgLabel {
-    margin: .3rem;
-
+	margin: 0.3rem;
 }
 
 .login-form {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 }
 
 .lIButt {
-    color: white;
-    background-color: brown;
-    font-size: 1.5em;
-    padding: .5em;
-    height: 2.2em;
-    text-align: center;
-    width: max-content;
+	color: white;
+	background-color: brown;
+	font-size: 1.5em;
+	padding: 0.5em;
+	height: 2.2em;
+	text-align: center;
+	width: max-content;
 }
-
-
-input {
-    font-size: 1.5em;
-    height: 2em;
-}
-
-
-
-

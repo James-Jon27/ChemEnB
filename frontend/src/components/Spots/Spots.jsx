@@ -22,6 +22,11 @@ export default function Spots() {
 		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;
 	}
 
+	const rating = (num) => {
+		if(isNaN(num)) return "NEW";
+		return num;
+	}
+
 	return (
 		<div>
 			<div className="grid">
@@ -39,7 +44,7 @@ export default function Spots() {
 									</p>
 									<span className="ratings">
 										<MdStars style={{display: "flex", justifyContent : "center"}}/>
-										<p>{avgStarRating}</p>
+										<p>{rating(avgStarRating)}</p>
 									</span>
 								</span>
 								<span className="price"><h2>{price}</h2><p>/night</p></span>

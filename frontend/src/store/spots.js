@@ -3,10 +3,8 @@ import { csrfFetch } from "./csrf";
 const initialState = {};
 const LOAD = "spots/LOAD";
 const LOAD_ONE = "spots/DETAILS";
-const CREATE = "spots/CREATE";
-const MANAGE = "spots/CURR_USER";
+const MANAGE = "spots/MANAGE";
 const DELETE = "spots/DELETE";
-const UPDATE = "spots/UPDATE";
 
 const load = (spots) => {
 	return {
@@ -22,15 +20,38 @@ const loadOne = (spot) => {
 	};
 };
 
-const create = (spot) => {
+const manage = (spot) => {
 	return {
-		type: CREATE,
+		type: MANAGE,
 		payload: spot,
+	};
+};
+
+const deleteMe = (id) => {
+	return {
+		type: DELETE,
+		payload: id,
+	};
+};
+
+const image = (url, preview) => {
+	return {
+		url,
+		preview,
 	};
 };
 
 export const getSpot = () => async (dispatch) => {
 	const res = await csrfFetch(`/api/spots`);
+	if (res.ok) {
+		const data = await res.json();
+		dispatch(load(data.Spots));
+		return data.Spots;
+	}
+};
+
+export const mySpots = () => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots/current`);
 	if (res.ok) {
 		const data = await res.json();
 		dispatch(load(data.Spots));
@@ -51,8 +72,65 @@ export const getOneSpot = (id) => async (dispatch) => {
 	}
 };
 
-export const newSpot = (spot) => async (dispatch) => {
-	const res = await csrfFetch(`/api/spots`);
+export const createSpot = (spot) => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots`, {
+		method: "POST",
+		body: JSON.stringify(spot),
+	});
+
+	if (res.ok) {
+		const createdSpot = await res.json();
+		console.log(createdSpot);
+		dispatch(manage(createdSpot));
+		return createdSpot;
+	}
+};
+
+export const updateSpot = (spot) => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots/${spot.id}`, {
+		method: "PUT",
+		body: JSON.stringify(spot),
+	});
+
+	if (res.ok) {
+		const createdSpot = await res.json();
+		console.log(createdSpot);
+		dispatch(manage(createdSpot));
+		return createdSpot;
+	}
+};
+
+export const deleteSpot = (id) => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots/${id}`, {
+		method: "DELETE",
+	});
+
+	if (res.ok) {
+		const data = res.json();
+		dispatch(deleteMe(id));
+		return data;
+	}
+};
+
+export const postImages = (prev, imgs, spotId) => async () => {
+	try {const previewRes = await csrfFetch(`api/spots/${spotId}/images`, {
+				method: "POST",
+				body: JSON.stringify(image(prev, true)),
+			});
+		imgs.forEach(
+			async (img) =>
+				await csrfFetch(`api/spots/${spotId}/images`, {
+					method: "POST",
+					body: JSON.stringify(image(img, false)),
+			})
+	);
+
+	if(previewRes.ok) {
+		const data = await previewRes.json();
+		return data;
+	}} catch (e) {
+		return e
+	}
 };
 
 export default function spotsReducer(state = initialState, action) {
@@ -66,6 +144,19 @@ export default function spotsReducer(state = initialState, action) {
 
 		case LOAD_ONE: {
 			const newState = { ...state, detail: action.payload };
+			return newState;
+		}
+
+		case MANAGE: {
+			const ap = action.payload;
+			const newState = { ...state };
+			newState[ap.id] = action.payload;
+			return newState;
+		}
+
+		case DELETE: {
+			const newState = { ...state };
+			delete newState[action.payload];
 			return newState;
 		}
 

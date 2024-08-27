@@ -45,10 +45,10 @@ function LoginFormModal() {
 			<h1 className="login">Log In</h1>
 			<form className="login-form" onSubmit={handleSubmit}>
 				<label className="lgLabel">
-					<input type="text" placeholder="Username or Email" value={credential} onChange={(e) => setCredential(e.target.value)} required />
+					<input style={{ height: "2em", fontSize: "1.5em" }} type="text" placeholder="Username or Email" value={credential} onChange={(e) => setCredential(e.target.value)} required />
 				</label>
 				<label className="lgLabel">
-					<input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+					<input style={{ height: "2em", fontSize: "1.5em" }} type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
 				</label>
 				<button disabled={disabled(credential, password)} className="lIButt" type="submit">
 					Log In
