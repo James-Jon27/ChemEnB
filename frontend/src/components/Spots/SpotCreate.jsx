@@ -1,22 +1,12 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getOneSpot, getSpot, postImages, updateSpot } from "../../store/spots";
-import { useNavigate, useParams } from "react-router-dom";
+// https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.usgbc.org%2Fsites%2Fdefault%2Ffiles%2F2022-12%2Fromney%2520hall.jpg&f=1&nofb=1&ipt=c602cdee39d31c8e22c2dff6a64d0bc4d0d4450ca7ffa3b025264fa0df4359a9&ipo=images
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createSpot, postImages } from "../../store/spots";
+import { useNavigate } from "react-router-dom";
 
-export default function SpotUpdate() {
+export default function SpotCreate() {
 	const dispatch = useDispatch();
 	const nav = useNavigate();
-	const { id } = useParams();
-	const spot = useSelector((state) => state.spots.detail);
-	useEffect(() => {
-		const fetch = async () => {
-			await dispatch(getSpot());
-			await dispatch(getOneSpot(id));
-		};
-
-		fetch();
-	}, [dispatch, id]);
-
 	const [country, setCountry] = useState("");
 	const [address, setAddress] = useState("");
 	const [city, setCity] = useState("");
@@ -29,21 +19,6 @@ export default function SpotUpdate() {
 	const [images, setImages] = useState([]);
 	const [errors, setErrors] = useState({});
 
-	useEffect(() => {
-		if (spot) {
-			setCountry(spot.country);
-			setAddress(spot.address);
-			setCity(spot.city);
-			setState(spot.state);
-			setLatitude(spot.lat || "");
-			setLongitude(spot.lng || "");
-			setPrice(spot.price || "");
-			setDescription(spot.description || "");
-			setName(spot.name || "");
-			setImages(spot.images || []);
-		}
-	}, [spot, setAddress]);
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -52,8 +27,8 @@ export default function SpotUpdate() {
 
 		setErrors({});
 		try {
-			const updatedSpot = await dispatch(
-				updateSpot({
+			const newSpot = await dispatch(
+				createSpot({
 					address,
 					city,
 					state,
@@ -66,8 +41,8 @@ export default function SpotUpdate() {
 				})
 			);
 
-			await dispatch(postImages(images, updatedSpot.id));
-			nav(`/spots/${updatedSpot.id}`);
+			await dispatch(postImages(images, newSpot.id));
+			nav(`/spots/${newSpot.id}`);
 		} catch (res) {
 			const data = await res.json();
 			if (data.errors) {
@@ -83,13 +58,9 @@ export default function SpotUpdate() {
 		return false;
 	};
 
-	if (!spot) {
-		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;
-	}
-
 	return (
 		<div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-			<h1>Update Your Spot</h1>
+			<h1>Create a Spot</h1>
 			<h3 style={{ paddingTop: "0", paddingBottom: "0", marginTop: "0", marginBottom: "0" }}>Where&apos;s your Spot located?</h3>
 			<p style={{ paddingTop: "0", marginTop: "0" }}>Guests will only get your exact address once they booked a reservation.</p>
 			<form className="spot-form" onSubmit={handleSubmit}>
@@ -166,7 +137,7 @@ export default function SpotUpdate() {
 				</label>
 				<hr />
 				<button className="pageButt" disabled={disabled()}>
-					Update Spot
+					Create Spot
 				</button>
 			</form>
 		</div>

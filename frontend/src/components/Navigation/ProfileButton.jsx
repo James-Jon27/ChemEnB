@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { TfiAlignJustify } from "react-icons/tfi";
 import { FaUserCircle } from "react-icons/fa";
 import * as sessionActions from "../../store/session";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import SignUpFormModal from "../SignUpFormModal";
 import LoginFormModal from "../LoginFormModal";
@@ -63,9 +63,9 @@ function ProfileButton({ user }) {
 
 	return (
 		<div style={{ display: "flex", gap: "20px" }}>
-			<Link to="/spots/new" style={{ fontSize: "1.5rem", alignContent: "center", textDecoration: "underline" }}>
-				Create a Spot
-			</Link>
+			<NavLink to="/spots/new" style={{ fontSize: "1.5rem", alignContent: "center", textDecoration: "underline" }}>
+				Create a New Spot
+			</NavLink>
 			<div className="div">
 				<button className="user" onClick={toggleMenu}>
 					<TfiAlignJustify className="hover" style={{ color: "bisque", width: "3rem", height: "auto", paddingTop: "0" }} />
@@ -92,14 +92,22 @@ function ProfileButton({ user }) {
 							fontSize: "2.5rem",
 							margin: "0.5rem",
 						}}>
-						<button className="manage">Manage Labs</button>
+						<NavLink to="spots/current">
+							<button className="manage" onClick={toggleMenu}>
+								Manage Labs
+							</button>
+						</NavLink>
 					</li>
 					<li
 						style={{
 							fontSize: "2.5rem",
 							margin: "0.5rem",
 						}}>
-						<button className="manage">Manage Reviews</button>
+						<NavLink>
+							<button className="manage" onClick={toggleMenu}>
+								Manage Reviews
+							</button>
+						</NavLink>
 					</li>
 					<li
 						style={{
