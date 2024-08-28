@@ -112,24 +112,25 @@ export const deleteSpot = (id) => async (dispatch) => {
 	}
 };
 
-export const postImages = (prev, imgs, spotId) => async () => {
-	try {const previewRes = await csrfFetch(`api/spots/${spotId}/images`, {
+export const postImages = (imgs, spotId) => async () => {
+	try {
+		let res = [];
+		imgs.forEach(async (img) => {
+			const response = await csrfFetch(`api/spots/${spotId}/images`, {
 				method: "POST",
-				body: JSON.stringify(image(prev, true)),
+				body: JSON.stringify(image(img.url, img.preview)),
 			});
-		imgs.forEach(
-			async (img) =>
-				await csrfFetch(`api/spots/${spotId}/images`, {
-					method: "POST",
-					body: JSON.stringify(image(img, false)),
-			})
-	);
+			res.push(response);
+		});
 
-	if(previewRes.ok) {
-		const data = await previewRes.json();
-		return data;
-	}} catch (e) {
-		return e
+		res.forEach(async (resp) => {
+			if (resp.ok) {
+				const data = await resp.json();
+				return data;
+			}
+		});
+	} catch (e) {
+		return e;
 	}
 };
 

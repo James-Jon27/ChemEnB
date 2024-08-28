@@ -6,6 +6,7 @@ import * as sessionActions from "./store/session";
 import Spots from "./components/Spots";
 import SpotDetails from "./components/Spots/SpotDetails";
 import SpotManagement from "./components/Spots/SpotManagement";
+import SpotUpdate from "./components/Spots/SpotUpdate";
 
 function Layout() {
 	const dispatch = useDispatch();
@@ -36,23 +37,21 @@ const router = createBrowserRouter([
 			{
 				path: "/spots/:id",
 				element: <SpotDetails />,
-				children : [
-					{
-						path : "edit",
-						element: <SpotManagement method={false}/>
-					}
-				]
+			},
+			{
+				path: "/spots/:id/edit",
+				element: <SpotUpdate />,
 			},
 			{
 				path: "/spots/new",
-				element: <SpotManagement method={true}/>
+				element: <SpotManagement />,
 			},
 			{
-				path: "/reviews/current"
-			}, 
+				path: "/reviews/current",
+			},
 			{
-				path:  "/spots/current"
-			}
+				path: "/spots/current",
+			},
 		],
 	},
 ]);

@@ -1,23 +1,29 @@
-// https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.usgbc.org%2Fsites%2Fdefault%2Ffiles%2F2022-12%2Fromney%2520hall.jpg&f=1&nofb=1&ipt=c602cdee39d31c8e22c2dff6a64d0bc4d0d4450ca7ffa3b025264fa0df4359a9&ipo=images
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createSpot, postImages } from "../../store/spots";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createSpot, getOneSpot, postImages } from "../../store/spots";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function SpotManagement() {
+export default function SpotUpdate() {
+	const spot = useSelector((state) => state.spots).detail;
+    console.log(spot)
+	const { id } = useParams();
 	const dispatch = useDispatch();
 	const nav = useNavigate();
-	const [country, setCountry] = useState("");
-	const [address, setAddress] = useState("");
-	const [city, setCity] = useState("");
-	const [state, setState] = useState("");
-	const [latitude, setLatitude] = useState("");
-	const [longitude, setLongitude] = useState("");
-	const [price, setPrice] = useState("");
-	const [description, setDescription] = useState("");
-	const [name, setName] = useState("");
+	const [country, setCountry] = useState(spot.country);
+	const [address, setAddress] = useState(spot.address);
+	const [city, setCity] = useState(spot.city);
+	const [state, setState] = useState(spot.state);
+	const [latitude, setLatitude] = useState(spot.lat);
+	const [longitude, setLongitude] = useState(spot.lng);
+	const [price, setPrice] = useState(spot.price);
+	const [description, setDescription] = useState(spot.description);
+	const [name, setName] = useState(spot.name);
 	const [images, setImages] = useState([]);
 	const [errors, setErrors] = useState({});
+
+	useEffect(() => {
+		dispatch(getOneSpot(id));
+	}, [dispatch, id]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -60,7 +66,7 @@ export default function SpotManagement() {
 
 	return (
 		<div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-			<h1>Create a Spot</h1>
+			<h1>Update Your Spot</h1>
 			<h3 style={{ paddingTop: "0", paddingBottom: "0", marginTop: "0", marginBottom: "0" }}>Where&apos;s your Spot located?</h3>
 			<p style={{ paddingTop: "0", marginTop: "0" }}>Guests will only get your exact address once they booked a reservation.</p>
 			<form className="spot-form" onSubmit={handleSubmit}>
