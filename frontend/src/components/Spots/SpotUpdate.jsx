@@ -1,29 +1,48 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createSpot, getOneSpot, postImages } from "../../store/spots";
+import { getOneSpot, getSpot, postImages, updateSpot } from "../../store/spots";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function SpotUpdate() {
-	const spot = useSelector((state) => state.spots).detail;
-    console.log(spot)
-	const { id } = useParams();
 	const dispatch = useDispatch();
 	const nav = useNavigate();
-	const [country, setCountry] = useState(spot.country);
-	const [address, setAddress] = useState(spot.address);
-	const [city, setCity] = useState(spot.city);
-	const [state, setState] = useState(spot.state);
-	const [latitude, setLatitude] = useState(spot.lat);
-	const [longitude, setLongitude] = useState(spot.lng);
-	const [price, setPrice] = useState(spot.price);
-	const [description, setDescription] = useState(spot.description);
-	const [name, setName] = useState(spot.name);
+	const { id } = useParams();
+	const spot = useSelector((state) => state.spots.detail);
+	useEffect(() => {
+		const fetch = async () => {
+			await dispatch(getSpot());
+			await dispatch(getOneSpot(id));
+		};
+
+		fetch();
+	}, [dispatch, id]);
+
+	const [country, setCountry] = useState("");
+	const [address, setAddress] = useState("");
+	const [city, setCity] = useState("");
+	const [state, setState] = useState("");
+	const [latitude, setLatitude] = useState("");
+	const [longitude, setLongitude] = useState("");
+	const [price, setPrice] = useState("");
+	const [description, setDescription] = useState("");
+	const [name, setName] = useState("");
 	const [images, setImages] = useState([]);
 	const [errors, setErrors] = useState({});
 
 	useEffect(() => {
-		dispatch(getOneSpot(id));
-	}, [dispatch, id]);
+		if (spot) {
+			setCountry(spot.country);
+			setAddress(spot.address);
+			setCity(spot.city);
+			setState(spot.state);
+			setLatitude(spot.lat || "");
+			setLongitude(spot.lng || "");
+			setPrice(spot.price || "");
+			setDescription(spot.description || "");
+			setName(spot.name || "");
+			setImages(spot.images || []);
+		}
+	}, [spot, setAddress]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -33,8 +52,8 @@ export default function SpotUpdate() {
 
 		setErrors({});
 		try {
-			const newSpot = await dispatch(
-				createSpot({
+			const updatedSpot = await dispatch(
+				updateSpot({
 					address,
 					city,
 					state,
@@ -47,8 +66,8 @@ export default function SpotUpdate() {
 				})
 			);
 
-			await dispatch(postImages(images, newSpot.id));
-			nav(`/spots/${newSpot.id}`);
+			await dispatch(postImages(images, updatedSpot.id));
+			nav(`/spots/${updatedSpot.id}`);
 		} catch (res) {
 			const data = await res.json();
 			if (data.errors) {
@@ -63,6 +82,10 @@ export default function SpotUpdate() {
 		}
 		return false;
 	};
+
+	if (!spot) {
+		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;
+	}
 
 	return (
 		<div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
