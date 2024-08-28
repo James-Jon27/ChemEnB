@@ -134,6 +134,10 @@ export const postImages = (imgs, spotId) => async () => {
 	}
 };
 
+
+//Send img post req in create thunk
+//update backend to take imgs
+
 export default function spotsReducer(state = initialState, action) {
 	switch (action.type) {
 		case LOAD: {
