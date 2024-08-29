@@ -35,10 +35,11 @@ export default function SpotCreate() {
 			err.description = "Description needs 30 or more characters";
 		}
 		if (!images[0]) err.previewImage = "Preview Image is required";
-		if (!images.every(({ url }) => url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg")) && images.length > 1) err.image = "Image URL must end in .png, .jpg, or .jpeg";
+		if (!images.every(({ url }) => url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url === "") && images.length > 1) err.image = "Image URL must end in .png, .jpg, or .jpeg";
 		if (err.image || err.previewImage) setImages([]);
 
 		console.log(images)
+
 		setErrors(err);
 
 		if (Object.keys(errors)) {
@@ -134,6 +135,7 @@ export default function SpotCreate() {
 					<p style={{ paddingTop: "0", paddingBottom: "0", marginTop: "2px", marginBottom: "0" }}>Submit a link to at least one photo to publish your spot</p>
 					<input type="text" placeholder="Preview Image URL" onChange={(e) => setImages([...images, { url: e.target.value, preview: true }])}></input>
 					{errors.previewImage && <p className="errors">{errors.previewImage}</p>}
+					{errors.image && <p className="errors">{errors.image}</p>}
 					<input type="text" placeholder="Image URL" onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>
 					{errors.image && <p className="errors">{errors.image}</p>}
 					<input type="text" placeholder="Image URL" onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>

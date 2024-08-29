@@ -40,7 +40,7 @@ export default function SpotUpdate() {
 			setPrice(spot.price || "");
 			setDescription(spot.description || "");
 			setName(spot.name || "");
-			setImages(spot.images || []);
+			setImages(spot.SpotImages.url || []);
 		}
 	}, [spot, setAddress]);
 
@@ -167,7 +167,7 @@ export default function SpotUpdate() {
 					{errors.image && <p className="errors">{errors.image}</p>}
 					<hr />
 				</form>
-					<button className="pageButt">Update a Spot</button>
+					<button type="submit" className="pageButt">Update a Spot</button>
 			</div>
 		</div>
 	);

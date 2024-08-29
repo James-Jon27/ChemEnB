@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import * as spotActions from "../../store/spots";
 import { Link } from "react-router-dom";
 import "./Spots.css";
+import OpenModalButton from "../OpenModalButton";
+import DeleteFormModal from "../DeleteFormModal";
 
 export default function SpotManagement() {
 	const dispatch = useDispatch();
@@ -31,10 +33,11 @@ export default function SpotManagement() {
 		<div>
 			<h1>Manage Your Spots</h1>
 			<Link to="/spots/new">
-				<button>Create a Spot</button>
+				<button className="pageButt">Create a Spot</button>
 			</Link>
 			<div className="grid">
 				{spots.map(({ id, city, state, avgStarRating, price, previewImage, name }) => {
+					console.log(id)
 					return (
 						<div key={id}>
 							<Link style={{ color: "black" }} to={`/spots/${id}`} title={name}>
@@ -58,11 +61,13 @@ export default function SpotManagement() {
 									</span>
 								</div>
 							</Link>
-							<div>
+							<div className="butts">
 								<Link to={`/spots/${id}/edit`}>
-									<button>Update</button>
+									<button className="pageButt">Update</button>
 								</Link>
-									<button>Delete</button>
+								<OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Lab"} />}>
+									Delete
+								</OpenModalButton>
 							</div>
 						</div>
 					);

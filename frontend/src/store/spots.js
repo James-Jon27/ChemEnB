@@ -78,23 +78,16 @@ export const createSpot = (spot, images) => async (dispatch) => {
 
 	if (res.ok) {
 		const createdSpot = await res.json();
+		console.log(createdSpot, "SPOT CREATED")
+		await dispatch(manage(createdSpot));
 
-		if (images.length > 0) {
-			for (const image of images) {
-				const imgRes = await csrfFetch(`/api/spots/${createdSpot.id}/images`, {
-					method: "POST",
-					body: JSON.stringify(image),
-				});
-
-				if (!imgRes.ok) {
-					console.error(await imgRes.json());
-				}
-			}
-		}
-		dispatch(manage(createdSpot));
-		return createdSpot;
+		const newSpotDetails = await csrfFetch(`/api/spots/${createdSpot.id}`);
+		const data = await newSpotDetails.json();
+		console.log(data);
+		data.SpotImages = images;
+		return data;
 	} else {
-		console.error(await res.json());
+		console.log(await res.json());
 	}
 };
 
@@ -106,21 +99,12 @@ export const updateSpot = (spot, images) => async (dispatch) => {
 
 	if (res.ok) {
 		const updatedSpot = await res.json();
-
-		if (images.length > 0) {
-			for (const image of images) {
-				const imgRes = await csrfFetch(`/api/spots/${updatedSpot.id}/images`, {
-					method: "POST",
-					body: JSON.stringify(image),
-				});
-
-				if (!imgRes.ok) {
-					console.error(await imgRes.json());
-				}
-			}
-		}
 		dispatch(manage(updatedSpot));
-		return updatedSpot;
+		const spotDetails = await csrfFetch(`/api/spots/${updatedSpot.id}`);
+		const data = await spotDetails.json();
+		data.SpotImages = images;
+
+		return data;
 	} else {
 		console.error(await res.json());
 	}

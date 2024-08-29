@@ -15,8 +15,16 @@ function OpenModalButton({
 		if (typeof onButtonClick === "function") onButtonClick();
 	};
 
+	if(buttonText === "Delete") {
+		return (
+			<button className="pageButt" onClick={onClick}>
+				{buttonText}
+			</button>
+		);
+	}
+
 	return (
-		<button  className="hover" style={{ color: "bisque", background: "none", border: "none", fontSize: "2.5rem", fontFamily: "Times New Roman, Times, serif",}} onClick={onClick}>
+		<button  className="hover" onClick={onClick}>
 			{buttonText}
 		</button>
 	);

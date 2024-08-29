@@ -8,8 +8,8 @@ import DeleteFormModal from "../DeleteFormModal";
 export default function Reviews() {
 	const dispatch = useDispatch();
 	const allReviews = useSelector((state) => state.reviews);
-	const sessionUser = useSelector((state) => state.session.user);
-
+    const sessionUser = useSelector((state) => state.session.user);
+    console.log(sessionUser)
 	const spotReviews = Object.values(allReviews);
 	const reviews = [];
 	for (const review of spotReviews) {
@@ -34,30 +34,15 @@ export default function Reviews() {
 			<div className="reviews">
 				<button>Post Your Review</button>
 				{reviews.map(({ id, review, createdAt, User }) => {
-					let date = createdAt.split("-");
-					let year = date[0];
-					let month = {
-						"01" : "January",
-						"02": "February",
-						"03": "March",
-						"04": "April",
-						"05": "May", 
-						"06": "June", 
-						"07": "July", 
-						"08": "August",
-						"09": "September", 
-						"10": "October", 
-						"11": "November", 
-						"12": "December"
-					}
-					date = `${month[date[1]]}, ${year}`
+                    const date = createdAt.split("-")
+                    console.log(date)
 					return (
 						<div key={id}>
 							<span>
 								<h4>{User.firstName}</h4>
-								<h5>{date}</h5>
+								<h6>{createdAt}</h6>
 								<p>{review}</p>
-								{sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />} />}
+                                {sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />}/>} 
 							</span>
 						</div>
 					);
