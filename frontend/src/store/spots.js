@@ -98,7 +98,7 @@ export const createSpot = (spot) => async (dispatch) => {
 	}
 };
 
-export const updateSpot = (spot) => async (dispatch) => {
+export const updateSpot = (spot)  => async (dispatch) => {
 	try {
 		const res = await csrfFetch(`/api/spots`, {
 			method: "PUT",
