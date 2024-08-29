@@ -98,7 +98,7 @@ export const createSpot = (spot) => async (dispatch) => {
 	}
 };
 
-export const updateSpot = (spot, images) => async (dispatch) => {
+export const updateSpot = (spot) => async (dispatch) => {
 	try {
 		const res = await csrfFetch(`/api/spots`, {
 			method: "PUT",
@@ -108,10 +108,6 @@ export const updateSpot = (spot, images) => async (dispatch) => {
 		if (res.ok) {
 			const updatedSpot = await res.json();
 			dispatch(manage(updatedSpot));
-			// const spotDetails = await csrfFetch(`/api/spots/${updatedSpot.id}`);
-			// console.log(spotDetails);
-			// const data = await spotDetails.json();
-			// data.SpotImages = images;
 			return updatedSpot;
 		}
 	} catch (e) {
