@@ -3,6 +3,11 @@ span {
 	border: 1px solid red;
 } */
 
+.errors {
+	color: brown;
+	font-size: medium;
+}
+
 .grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));

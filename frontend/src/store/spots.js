@@ -34,19 +34,14 @@ const deleteMe = (id) => {
 	};
 };
 
-const image = (url, preview) => {
-	return {
-		url,
-		preview,
-	};
-};
-
 export const getSpot = () => async (dispatch) => {
 	const res = await csrfFetch(`/api/spots`);
 	if (res.ok) {
 		const data = await res.json();
 		dispatch(load(data.Spots));
 		return data.Spots;
+	} else {
+		console.error(await res.json());
 	}
 };
 
@@ -56,47 +51,78 @@ export const mySpots = () => async (dispatch) => {
 		const data = await res.json();
 		dispatch(load(data.Spots));
 		return data.Spots;
+	} else {
+		console.error(await res.json());
 	}
 };
 
 export const getOneSpot = (id) => async (dispatch) => {
-	try {
-		const res = await csrfFetch(`/api/spots/${id}`);
-		if (res.ok) {
-			const data = await res.json();
-			dispatch(loadOne(data[0]));
-			return data[0];
-		}
-	} catch (e) {
-		return e;
+	const res = await csrfFetch(`/api/spots/${id}`);
+	if (res.ok) {
+		const data = await res.json();
+		dispatch(loadOne(data[0]));
+		return data[0];
+	} else {
+		console.error(await res.json());
 	}
 };
 
-export const createSpot = (spot) => async (dispatch) => {
-	const res = await csrfFetch(`/api/spots`, {
+//Send img post req in create thunk
+//update backend
+
+export const createSpot = (spot, images) => async (dispatch) => {
+	const res = await csrfFetch("/api/spots", {
 		method: "POST",
 		body: JSON.stringify(spot),
 	});
 
 	if (res.ok) {
 		const createdSpot = await res.json();
-		console.log(createdSpot);
+
+		if (images.length > 0) {
+			for (const image of images) {
+				const imgRes = await csrfFetch(`/api/spots/${createdSpot.id}/images`, {
+					method: "POST",
+					body: JSON.stringify(image),
+				});
+
+				if (!imgRes.ok) {
+					console.error(await imgRes.json());
+				}
+			}
+		}
 		dispatch(manage(createdSpot));
 		return createdSpot;
+	} else {
+		console.error(await res.json());
 	}
 };
 
-export const updateSpot = (spot) => async (dispatch) => {
-	const res = await csrfFetch(`/api/spots/${spot.id}`, {
+export const updateSpot = (spot, images) => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots`, {
 		method: "PUT",
 		body: JSON.stringify(spot),
 	});
 
 	if (res.ok) {
-		const createdSpot = await res.json();
-		console.log(createdSpot);
-		dispatch(manage(createdSpot));
-		return createdSpot;
+		const updatedSpot = await res.json();
+
+		if (images.length > 0) {
+			for (const image of images) {
+				const imgRes = await csrfFetch(`/api/spots/${updatedSpot.id}/images`, {
+					method: "POST",
+					body: JSON.stringify(image),
+				});
+
+				if (!imgRes.ok) {
+					console.error(await imgRes.json());
+				}
+			}
+		}
+		dispatch(manage(updatedSpot));
+		return updatedSpot;
+	} else {
+		console.error(await res.json());
 	}
 };
 
@@ -111,32 +137,6 @@ export const deleteSpot = (id) => async (dispatch) => {
 		return data;
 	}
 };
-
-export const postImages = (imgs, spotId) => async () => {
-	try {
-		let res = [];
-		imgs.forEach(async (img) => {
-			const response = await csrfFetch(`api/spots/${spotId}/images`, {
-				method: "POST",
-				body: JSON.stringify(image(img.url, img.preview)),
-			});
-			res.push(response);
-		});
-
-		res.forEach(async (resp) => {
-			if (resp.ok) {
-				const data = await resp.json();
-				return data;
-			}
-		});
-	} catch (e) {
-		return e;
-	}
-};
-
-
-//Send img post req in create thunk
-//update backend to take imgs
 
 export default function spotsReducer(state = initialState, action) {
 	switch (action.type) {

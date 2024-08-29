@@ -1,0 +1,72 @@
+html, body, div {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.create {
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	align-items: center;
+}
+
+.spot-form {
+	width: 100%;
+	max-width: 600px;
+	text-align: left;
+}
+
+.spot-form label {
+	display: flex;
+	gap: 8px;
+	padding-top: 0;
+}
+
+.spot-form li {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 10px;
+}
+
+.spot-form input,
+.spot-form textarea {
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	width: 90%;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: rgb(252, 205, 167);
+    border: solid 1px brown;
+}
+
+.pageButt {
+    display: flex;
+    justify-self: center;
+	align-self: center;
+	padding: 10px 20px;
+	background-color: brown;
+	color: bisque;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.sideBySide {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+.sideBySide1 {
+	width: 70%;
+}
+.sideBySide2 {
+	width: 25%;
+}
+
+.sideBySide p {
+	margin: 0;
+    padding: 0;
+}
+
+.desc {
+	height: 5rem;
+}
