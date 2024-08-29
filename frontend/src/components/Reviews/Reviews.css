@@ -1,0 +1,14 @@
+.reviews {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+
+.reviews h4,
+.reviews h5,
+.reviews p {
+    margin: 0;
+}

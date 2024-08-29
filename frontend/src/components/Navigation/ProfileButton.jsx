@@ -103,7 +103,7 @@ function ProfileButton({ user }) {
 							fontSize: "2.5rem",
 							margin: "0.5rem",
 						}}>
-						<NavLink>
+						<NavLink to="reviews/current">
 							<button className="manage" onClick={toggleMenu}>
 								Manage Reviews
 							</button>

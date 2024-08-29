@@ -21,8 +21,8 @@ export default function SpotUpdate() {
 	const [address, setAddress] = useState("");
 	const [city, setCity] = useState("");
 	const [state, setState] = useState("");
-	const [latitude, setLatitude] = useState("");
-	const [longitude, setLongitude] = useState("");
+	// const [latitude, setLatitude] = useState("");
+	// const [longitude, setLongitude] = useState("");
 	const [price, setPrice] = useState("");
 	const [description, setDescription] = useState("");
 	const [name, setName] = useState("");
@@ -35,8 +35,8 @@ export default function SpotUpdate() {
 			setAddress(spot.address);
 			setCity(spot.city);
 			setState(spot.state);
-			setLatitude(spot.lat || "");
-			setLongitude(spot.lng || "");
+			// setLatitude(spot.lat || "");
+			// setLongitude(spot.lng || "");
 			setPrice(spot.price || "");
 			setDescription(spot.description || "");
 			setName(spot.name || "");
@@ -74,8 +74,6 @@ export default function SpotUpdate() {
 					city,
 					state,
 					country,
-					lat: latitude,
-					lng: longitude,
 					name,
 					description,
 					price,
@@ -123,7 +121,7 @@ export default function SpotUpdate() {
 								</div>
 							</label>
 						</li>
-						<li>
+						{/* <li>
 							<label>
 								<div className="sideBySide">
 									<p>Latitude</p>
@@ -136,7 +134,7 @@ export default function SpotUpdate() {
 									{errors.lng && <p className="errors">{errors.lng}</p>}
 								</div>
 							</label>
-						</li>
+						</li> */}
 					</ul>
 					<hr />
 					<h2 style={{ marginBottom: "0" }}>Describe your place to guests</h2>

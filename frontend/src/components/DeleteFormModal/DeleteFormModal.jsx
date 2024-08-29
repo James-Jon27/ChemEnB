@@ -4,7 +4,6 @@ import { deleteSpot } from "../../store/spots";
 import { deleteReview } from "../../store/reviews";
 
 export default function DeleteFormModal ({id, item}) {
-    console.log(id)
     const {closeModal} = useModal();
     const dispatch = useDispatch();
     const del = async (e) => {
@@ -24,7 +23,7 @@ export default function DeleteFormModal ({id, item}) {
     }
 
     return (
-			<div style={{ padding: "20px", border: "solid 5px brown", display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "bisque" }}>
+			<div style={{ padding: "20px", border: "solid 5px brown", backgroundColor: "bisque" }}>
 				<h1>Confirm Delete</h1>
 				<p>Are you sure you want to remove this {item} from the listings?</p>
 				<div className="butts" style={{ flexDirection: "column" }}>

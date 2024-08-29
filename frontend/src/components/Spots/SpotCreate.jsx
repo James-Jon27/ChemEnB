@@ -12,8 +12,8 @@ export default function SpotCreate() {
 	const [address, setAddress] = useState("");
 	const [city, setCity] = useState("");
 	const [state, setState] = useState("");
-	const [latitude, setLatitude] = useState("");
-	const [longitude, setLongitude] = useState("");
+	// const [latitude, setLatitude] = useState("");
+	// const [longitude, setLongitude] = useState("");
 	const [price, setPrice] = useState("");
 	const [description, setDescription] = useState("");
 	const [name, setName] = useState("");
@@ -31,18 +31,17 @@ export default function SpotCreate() {
 		if (!state) err.state = "State is required";
 		if (!name) err.name = "Title is required";
 		if (!price) err.price = "Price is required";
+		if(price < 0) err.price = "Price must be greater than $0"
 		if (description.length < 30) {
 			err.description = "Description needs 30 or more characters";
 		}
 		if (!images[0]) err.previewImage = "Preview Image is required";
-		if (!images.every(({ url }) => url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url === "") && images.length > 1) err.image = "Image URL must end in .png, .jpg, or .jpeg";
+		if (!images.every(({ url }) => url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith("images") || url === "") && images.length > 1) err.image = "Image URL must end in .png, .jpg, or .jpeg";
 		if (err.image || err.previewImage) setImages([]);
-
-		console.log(images)
 
 		setErrors(err);
 
-		if (Object.keys(errors)) {
+		if (Object.keys(errors).length > 1) {
 			return;
 		}
 		const newSpot = await dispatch(
@@ -52,8 +51,6 @@ export default function SpotCreate() {
 					city,
 					state,
 					country,
-					lat: latitude,
-					lng: longitude,
 					name,
 					description,
 					price,
@@ -61,8 +58,6 @@ export default function SpotCreate() {
 				images
 			)
 		);
-
-		console.log(newSpot);
 
 		nav(`/spots/${newSpot.id}`);
 	};
@@ -101,7 +96,7 @@ export default function SpotCreate() {
 								</div>
 							</label>
 						</li>
-						<li>
+						{/* <li>
 							<label>
 								<div className="sideBySide">
 									<p>Latitude</p>
@@ -114,7 +109,7 @@ export default function SpotCreate() {
 									{errors.lng && <p className="errors">{errors.lng}</p>}
 								</div>
 							</label>
-						</li>
+						</li> */}
 					</ul>
 					<hr />
 					<h2 style={{ marginBottom: "0" }}>Describe your place to guests</h2>

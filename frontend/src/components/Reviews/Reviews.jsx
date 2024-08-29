@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getReviews } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
 import DeleteFormModal from "../DeleteFormModal";
+import "./Reviews.css"
 
 export default function Reviews() {
 	const dispatch = useDispatch();
@@ -31,8 +32,8 @@ export default function Reviews() {
 		);
 	} else {
 		return (
-			<div className="reviews">
-				<button>Post Your Review</button>
+			<div>
+				{sessionUser && <button>Post Your Review</button>}
 				{reviews.map(({ id, review, createdAt, User }) => {
 					let date = createdAt.split("-");
 					let year = date[0];
@@ -53,11 +54,11 @@ export default function Reviews() {
 					date = `${month[date[1]]}, ${year}`
 					return (
 						<div key={id}>
-							<span>
+							<span className="reviews">
 								<h4>{User.firstName}</h4>
 								<h5>{date}</h5>
 								<p>{review}</p>
-								{sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />} />}
+								{sessionUser && sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />} />}
 							</span>
 						</div>
 					);

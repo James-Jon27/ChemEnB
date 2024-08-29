@@ -4,24 +4,21 @@ import { useParams } from "react-router-dom";
 import * as spotActions from "../../store/spots";
 import { MdStars } from "react-icons/md";
 import Reviews from "../Reviews";
+import "./SpotDetails.css";
 
 export default function SpotDetails() {
 	const dispatch = useDispatch();
 	const { id } = useParams();
 	const spot = useSelector((state) => state.spots.detail);
 	useEffect(() => {
-		dispatch(spotActions.getOneSpot(id))
+		dispatch(spotActions.getOneSpot(id));
 	}, [dispatch, id]);
 
 	if (!spot) {
 		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;
 	}
 
-
-
-	const { name, city, state, country, SpotImages, Owner, description, price, avgStarRating, numReviews } = spot;
-	const preCheck = (preview) => (preview ? "preview" : "image");
-	const rating = (num) => {
+	const { name, city, state, country, SpotImages, Owner, description, price, avgStarRating, numReviews } = spot;	const rating = (num) => {
 		if (num > 1) {
 			return (
 				<>
@@ -35,12 +32,18 @@ export default function SpotDetails() {
 				</>
 			);
 		} else {
-            return (
-                <>
-                    NEW
-                </>
-            )
-        }
+			return <>NEW</>;
+		}
+	};
+
+	console.log(SpotImages);
+
+	const srcImg = (array) => {
+		if(!array) {
+			return ""
+		} else {
+			return array[0].url
+		}
 	};
 
 	return (
@@ -50,9 +53,18 @@ export default function SpotDetails() {
 				{city}, {state}, {country}
 			</span>
 			<div className="spot-images">
-				{SpotImages.map(({ id, url, preview }) => {
-					return <img key={id} src={url} alt={preCheck(preview)} className={preCheck(preview)} />;
-				})}
+				<div className="bigImg">
+					<img src={srcImg(SpotImages)} alt="preview" />
+				</div>
+				<div className="the-rest">
+					{SpotImages.slice(1).map(({ id, url}) => {
+						return (
+							<div key={id} className="IMAGE">
+								<img src={url} alt={name} />
+							</div>
+						);
+					})}
+				</div>
 			</div>
 			<span className="about-spot">
 				<div className="desc">
@@ -61,16 +73,22 @@ export default function SpotDetails() {
 					</h3>
 					<p>{description}</p>
 				</div>
-				<div className="booking" style={{border: "1px solid brown"}}>
-					<div>
+				<div className="booking" style={{ border: "2.5px solid brown" }}>
+					<div className="pR">
 						<div className="price">${price} night</div>
-						<MdStars /> {rating(numReviews)}
+						<div className="rating">
+							<MdStars /> {rating(numReviews)}
+						</div>
 					</div>
-					<button className="bookingButt">RESERVE</button>
+					<button className="pageButt" style={{ width: "100%", justifyContent: "center" }}>
+						RESERVE
+					</button>
 				</div>
 			</span>
-                <hr style={{color: "black", height: "2px"}}/>
-                <h1><MdStars /> {rating(numReviews)}</h1>
+			<hr style={{ color: "black", height: "2px" }} />
+			<h1>
+				<MdStars /> {rating(numReviews)}
+			</h1>
 			<Reviews />
 		</div>
 	);

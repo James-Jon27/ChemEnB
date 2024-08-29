@@ -1,0 +1,66 @@
+.spot-images {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+.bigImg, .the-rest {
+    width: fit-content;
+}
+
+.bigImg img{
+    width: 850px;
+    height: 700px;
+    object-fit: cover;
+    display: block;
+}
+
+.the-rest {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+.IMAGE img{
+    width: 500px;
+    height: 345px;
+    object-fit: cover;
+    display: block;
+}
+
+.about-spot {
+    display: flex;
+    justify-content: space-between;
+}
+
+.booking {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    font-size: xx-large;
+    gap: 10px;
+    padding: 25px;
+    margin: 20px;
+    border-radius: 30px;
+}
+
+.desc {
+    width: 60%;
+}
+
+.pR,
+.rating{
+    display: flex;
+    justify-content: space-between;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}

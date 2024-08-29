@@ -37,7 +37,6 @@ export default function SpotManagement() {
 			</Link>
 			<div className="grid">
 				{spots.map(({ id, city, state, avgStarRating, price, previewImage, name }) => {
-					console.log(id)
 					return (
 						<div key={id}>
 							<Link style={{ color: "black" }} to={`/spots/${id}`} title={name}>
