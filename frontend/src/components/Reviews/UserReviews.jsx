@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getUserReviews } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
 import DeleteFormModal from "../DeleteFormModal";
@@ -8,7 +8,7 @@ import DeleteFormModal from "../DeleteFormModal";
 export default function UserReviews() {
 	const dispatch = useDispatch();
 	const allReviews = useSelector((state) => state.reviews);
-    const sessionUser = useSelector((state) => state.session.user);
+	const sessionUser = useSelector((state) => state.session.user);
 	const spotReviews = Object.values(allReviews);
 	const reviews = [];
 	for (const review of spotReviews) {
@@ -30,8 +30,8 @@ export default function UserReviews() {
 	} else {
 		return (
 			<div className="reviews">
-				<button>Post Your Review</button>
-				{reviews.map(({ id, review, createdAt, User }) => {
+				<h1>Manage Reviews</h1>
+				{reviews.map(({ id, review, createdAt, User, Spot }) => {
 					let date = createdAt.split("-");
 					let year = date[0];
 					let month = {
@@ -50,12 +50,17 @@ export default function UserReviews() {
 					};
 					date = `${month[date[1]]}, ${year}`;
 					return (
-						<div key={id}>
+						<div key={id} style={{ margin: "20px", marginLeft : "0px" }}>
 							<span>
-								<h4>{User.firstName}</h4>
+								<h4>{Spot.name}</h4>
 								<h5>{date}</h5>
 								<p>{review}</p>
-								{sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />} />}
+								<div className="butts" style={{ margin: "12px" }}>
+									<Link to={`/spots/${id}/edit`}>
+										<button className="pageButt">Update</button>
+									</Link>
+									{sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />} />}
+								</div>
 							</span>
 						</div>
 					);

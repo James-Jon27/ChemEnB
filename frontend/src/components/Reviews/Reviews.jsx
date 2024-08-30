@@ -26,14 +26,14 @@ export default function Reviews() {
 	} else if (reviews.length < 1) {
 		return (
 			<div>
-				<button>Post Your Review</button>
+				<button className="pageButt">Post Your Review</button>
 				<h4>Be the first to post a review!</h4>
 			</div>
 		);
 	} else {
 		return (
 			<div>
-				{sessionUser && <button>Post Your Review</button>}
+				{sessionUser && <button className="pageButt" style={{margin: "5px", marginBottom: "20px"}}>Post Your Review</button>}
 				{reviews.map(({ id, review, createdAt, User }) => {
 					let date = createdAt.split("-");
 					let year = date[0];

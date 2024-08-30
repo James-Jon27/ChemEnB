@@ -12,3 +12,11 @@
 .reviews p {
     margin: 0;
 }
+
+.pageButt {
+	padding: 10px 20px;
+	background-color: brown;
+	color: bisque;
+	border: none;
+	cursor: pointer;
+}

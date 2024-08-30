@@ -38,11 +38,12 @@ export default function SpotDetails() {
 
 	console.log(SpotImages);
 
-	const srcImg = (array) => {
-		if(!array) {
+	const srcImg = (images) => {
+		console.log(images)
+		if(!images) {
 			return ""
 		} else {
-			return array[0].url
+			return images[0].url
 		}
 	};
 
@@ -54,7 +55,7 @@ export default function SpotDetails() {
 			</span>
 			<div className="spot-images">
 				<div className="bigImg">
-					<img src={srcImg(SpotImages)} alt="preview" />
+					<img src={srcImg(SpotImages)} alt="previewImage" />
 				</div>
 				<div className="the-rest">
 					{SpotImages.slice(1).map(({ id, url}) => {
