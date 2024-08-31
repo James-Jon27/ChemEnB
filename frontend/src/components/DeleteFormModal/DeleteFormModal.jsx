@@ -15,7 +15,6 @@ export default function DeleteFormModal ({id, item}) {
         const deletion = await dispatch(deleteSpot(id))
         if(deletion) {
             closeModal()
-            nav(`/spots/current`)
         }
     } else if (item === "Review") {
         const deletion = await dispatch(deleteReview(id));
