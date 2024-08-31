@@ -49,7 +49,7 @@ function ProfileButton({ user }) {
 					<TfiAlignJustify className="hover" style={{ color: "bisque", width: "3rem", height: "auto", paddingTop: "0" }} />
 					<FaUserCircle className="hover" style={{ color: "bisque", width: "3rem", height: "auto", paddingTop: "0" }} />
 				</button>
-				<ul className={ulClassName} ref={ulRef}>
+				<ul className={ulClassName} style={{alignItems: "start", paddingLeft : "10px", paddingRight: "70px"}} ref={ulRef}>
 					<li>
 						<OpenModalButton buttonText="Sign Up" modalComponent={<SignUpFormModal />} />
 					</li>
@@ -64,7 +64,7 @@ function ProfileButton({ user }) {
 	return (
 		<div style={{ display: "flex", gap: "20px" }}>
 			<NavLink to="/spots/new" style={{ fontSize: "1.5rem", alignContent: "center", textDecoration: "underline" }}>
-				Create a New Spot
+				Create a New Lab
 			</NavLink>
 			<div className="div">
 				<button className="user" onClick={toggleMenu}>
@@ -74,22 +74,22 @@ function ProfileButton({ user }) {
 				<ul className={ulClassName} ref={ulRef}>
 					<li
 						style={{
-							fontSize: "2.5rem",
+							fontSize: "1.8rem",
 							margin: "0.5rem",
 						}}>
 						Hello, {user.firstName}
 					</li>
 					<li
 						style={{
-							fontSize: "2.5rem",
+							fontSize: "1.8rem",
 							margin: "0.5rem",
 						}}>
 						{user.email}
 					</li>
-					<p style={{ padding: "0", margin: "0", border: "0" }}>--------------------------</p>
+					<hr style={{color: "bisque", width: "100%"}}/>
 					<li
 						style={{
-							fontSize: "2.5rem",
+							fontSize: "1.8rem",
 							margin: "0.5rem",
 						}}>
 						<NavLink to="spots/current">
@@ -100,7 +100,7 @@ function ProfileButton({ user }) {
 					</li>
 					<li
 						style={{
-							fontSize: "2.5rem",
+							fontSize: "1.8rem",
 							margin: "0.5rem",
 						}}>
 						<NavLink to="reviews/current">
@@ -111,7 +111,7 @@ function ProfileButton({ user }) {
 					</li>
 					<li
 						style={{
-							fontSize: "2.5rem",
+							fontSize: "1.8rem",
 							margin: "0.5rem",
 						}}>
 						<button className="lOButt" onClick={logout}>

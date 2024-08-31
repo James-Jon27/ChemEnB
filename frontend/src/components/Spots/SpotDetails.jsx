@@ -36,10 +36,7 @@ export default function SpotDetails() {
 		}
 	};
 
-	console.log(SpotImages);
-
 	const srcImg = (images) => {
-		console.log(images)
 		if(!images) {
 			return ""
 		} else {
@@ -50,10 +47,10 @@ export default function SpotDetails() {
 	return (
 		<div>
 			<h1>{name}</h1>
-			<span>
+			<span style={{fontWeight: "bold"}}>
 				{city}, {state}, {country}
 			</span>
-			<div className="spot-images">
+			<div className="spot-images" style={{paddingTop :"10px"}}>
 				<div className="bigImg">
 					<img src={srcImg(SpotImages)} alt="previewImage" />
 				</div>
@@ -81,7 +78,7 @@ export default function SpotDetails() {
 							<MdStars /> {rating(numReviews)}
 						</div>
 					</div>
-					<button className="pageButt" style={{ width: "100%", justifyContent: "center" }}>
+					<button className="pageButt" style={{ width: "100%", justifyContent: "center" }} onClick={() => alert("Feature Coming Soon!")}>
 						RESERVE
 					</button>
 				</div>

@@ -45,10 +45,10 @@ function LoginFormModal() {
 			<h1 className="login">Log In</h1>
 			<form className="login-form" onSubmit={handleSubmit}>
 				<label className="lgLabel">
-					<input style={{ height: "2em", fontSize: "1.5em" }} type="text" placeholder="Username or Email" value={credential} onChange={(e) => setCredential(e.target.value)} required />
+					<input style={{ height: "2em", fontSize: "1.5em", width: "98.5%"}} type="text" placeholder="Username or Email" value={credential} onChange={(e) => setCredential(e.target.value)} required />
 				</label>
 				<label className="lgLabel">
-					<input style={{ height: "2em", fontSize: "1.5em" }} type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+					<input style={{ height: "2em", fontSize: "1.5em", width: "98.5%"}} type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
 				</label>
 				<button disabled={disabled(credential, password)} className="lIButt" type="submit">
 					Log In
@@ -56,7 +56,7 @@ function LoginFormModal() {
 			</form>
 			{errors.credential && <p>{errors.credential}</p>}
 			{errors.password && <p>{errors.password}</p>}
-			<button className="lIButt" style={{ marginTop: "1em" }} onClick={loginDemo}>
+			<button className="pageButt" style={{ marginTop: "1em" }} onClick={loginDemo}>
 				DEMO USER
 			</button>
 		</div>

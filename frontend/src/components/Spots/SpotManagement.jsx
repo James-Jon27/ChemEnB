@@ -31,9 +31,9 @@ export default function SpotManagement() {
 
 	return (
 		<div>
-			<h1>Manage Your Spots</h1>
+			<h1>Manage Your Labs</h1>
 			<Link to="/spots/new">
-				<button className="pageButt">Create a Spot</button>
+				<button className="pageButt">Create a Lab</button>
 			</Link>
 			<div className="grid">
 				{spots.map(({ id, city, state, avgStarRating, price, previewImage, name }) => {

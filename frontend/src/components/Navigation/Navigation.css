@@ -55,15 +55,19 @@
 
 .profile-dropdown {
 	position: absolute;
-	top: 65px;
+	top: 70px;
 	background-color: brown;
 	display: flex;
 	flex-direction: column;
-	align-items: end;
+	align-items: center;
 	width: max-content;
 	list-style-type: circle;
 	color: bisque;
 	list-style: none;
+	padding: 30px;
+	padding-top: 0;
+	padding-bottom: 0;
+	border: solid 3px rgb(245, 162, 61);
 }
 
 .profile-dropdown.hidden {

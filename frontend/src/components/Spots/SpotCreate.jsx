@@ -31,7 +31,7 @@ export default function SpotCreate() {
 		if (!state) err.state = "State is required";
 		if (!name) err.name = "Title is required";
 		if (!price) err.price = "Price is required";
-		if(price < 0) err.price = "Price must be greater than $0"
+		if (price < 0) err.price = "Price must be greater than $0";
 		if (description.length < 30) {
 			err.description = "Description needs 30 or more characters";
 		}

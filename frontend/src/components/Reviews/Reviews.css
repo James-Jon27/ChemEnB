@@ -5,6 +5,7 @@
     align-items: start;
     margin-bottom: 20px;
     margin-top: 5px;
+    gap: 5px;
 }
 
 .reviews h4,
@@ -19,4 +20,14 @@
 	color: bisque;
 	border: none;
 	cursor: pointer;
+}
+
+.stars {
+    color: black;
+    font-size: xx-large;
+}
+
+
+.stars:hover {
+    cursor: pointer;
 }

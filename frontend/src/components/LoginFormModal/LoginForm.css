@@ -4,6 +4,10 @@ html {
 }
 
 .login-page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 90%;
 	background-color: bisque;
 	padding: 5em;
 	padding-top: 3em;
@@ -12,17 +16,28 @@ html {
 .login {
 	color: brown;
 	text-decoration: underline;
-	text-shadow: 1em;
 }
 
 .lgLabel {
-	margin: 0.3rem;
+	margin-top: .3rem;
+	margin-bottom: .3rem;
 }
 
 .login-form {
 	display: flex;
+	flex-direction: column;
 	justify-content: space-around;
-	align-items: center;
+	align-content: center;
+	width: 120%;
+}
+
+[type="submit"]:disabled {
+	cursor:auto;
+	color: white;
+	background-color: #696969;
+	font-size: 1.5em;
+	height: 2.2em;
+	text-align: center;
 }
 
 .lIButt {
@@ -32,5 +47,10 @@ html {
 	padding: 0.5em;
 	height: 2.2em;
 	text-align: center;
-	width: max-content;
+	width: 100%
 }
+
+.lIButt:hover {
+	cursor: pointer;
+}
+
