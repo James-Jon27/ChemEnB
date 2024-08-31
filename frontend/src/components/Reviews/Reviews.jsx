@@ -24,11 +24,16 @@ export default function Reviews() {
 	}, [dispatch, id]);
 
 	const users = (id) => {
-		if(reviews.length > 1) {
-			let user = reviews.map(({ User }) => User.id);
+		if (reviews.length > 0) {
+			let user = reviews.map(({ User }) => {
+				console.log(User)
+				if (User) {
+					User.id;
+				} else return 0
+			});
 			return user.includes(id);
 		} else return false;
-	}
+	};
 
 	if (!reviews) {
 		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;
@@ -44,33 +49,37 @@ export default function Reviews() {
 			<div>
 				{sessionUser && sessionUser.id !== owner && !users(sessionUser.id) && <OpenModalButton buttonText="Post Your Review" modalComponent={<PostReviewModal spotId={id} />} />}
 				{reviews.map(({ id, review, createdAt, User }) => {
-					let date = createdAt.split("-");
-					let year = date[0];
-					let month = {
-						"01": "January",
-						"02": "February",
-						"03": "March",
-						"04": "April",
-						"05": "May",
-						"06": "June",
-						"07": "July",
-						"08": "August",
-						"09": "September",
-						10: "October",
-						11: "November",
-						12: "December",
-					};
-					date = `${month[date[1]]}, ${year}`;
-					return (
-						<div key={id}>
-							<span className="reviews">
-								<h4>{User.firstName}</h4>
-								<h5>{date}</h5>
-								<p>{review}</p>
-								<div>{sessionUser && sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />} />}</div>
-							</span>
-						</div>
-					);
+					if(User) {
+						let date = createdAt.split("-");
+						let year = date[0];
+						let month = {
+							"01": "January",
+							"02": "February",
+							"03": "March",
+							"04": "April",
+							"05": "May",
+							"06": "June",
+							"07": "July",
+							"08": "August",
+							"09": "September",
+							10: "October",
+							11: "November",
+							12: "December",
+						};
+						date = `${month[date[1]]}, ${year}`;
+						return (
+							<div key={id}>
+								<span className="reviews">
+									<h4>{User.firstName}</h4>
+									<h5>{date}</h5>
+									<p>{review}</p>
+									<div>{sessionUser && sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />} />}</div>
+								</span>
+							</div>
+						);
+					} else {
+						return;
+					}
 				})}
 			</div>
 		);

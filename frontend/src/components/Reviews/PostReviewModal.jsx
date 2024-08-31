@@ -1,11 +1,13 @@
 import { useState } from "react";
-import "./Reviews.css";
 import { useDispatch } from "react-redux";
 import { createReview } from "../../store/reviews";
+import { useModal } from "../../context/Modal";
+import "./Reviews.css";
 import "./ReviewModal.css";
 
 export default function PostReviewModal({ spotId }) {
 	const dispatch = useDispatch();
+	const {closeModal} = useModal();
 	const [review, setReview] = useState("");
 	const [stars, setStars] = useState(null);
 	const [hoveredStars, setHoveredStars] = useState(null);
@@ -18,6 +20,8 @@ export default function PostReviewModal({ spotId }) {
 		let rev = { review: review, stars: stars };
 		const res = await dispatch(createReview(rev, spotId));
 		if(res){
+			closeModal()
+			window.location.reload();
 			return res;
 		}
 	};
