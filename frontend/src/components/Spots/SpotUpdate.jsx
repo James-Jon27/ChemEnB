@@ -59,7 +59,7 @@ export default function SpotUpdate() {
 			err.description = "Description needs 30 or more characters";
 		}
 		if (!images[0]) err.previewImage = "Preview Image is required";
-		if (!images.every(({ url }) => url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg"))) err.image = "Image URL must end in .png, .jpg, or .jpeg";
+		if (!images.every(({ url }) => url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith("images") || url === "") && images.length > 1) err.image = "Image URL must end in .png, .jpg, or .jpeg";
 		if (err.image || err.previewImage) setImages([]);
 
 		setErrors(err);
@@ -67,7 +67,7 @@ export default function SpotUpdate() {
 		if (Object.keys(errors)) {
 			return;
 		}
-		const newSpot = await dispatch(
+		const spot = await dispatch(
 			updateSpot(
 				{
 					address,
@@ -77,14 +77,14 @@ export default function SpotUpdate() {
 					name,
 					description,
 					price,
+					lat: parseFloat(1.0),
+					lng: parseFloat(-1.0),
 				},
-				images
+				images[0]
 			)
 		);
 
-		console.log(newSpot);
-
-		nav(`/spots/${newSpot.id}`);
+		nav(`/spots/${spot.id}`);
 	};
 
 	return (
@@ -164,8 +164,12 @@ export default function SpotUpdate() {
 					<input type="text" placeholder="Image URL" onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>
 					{errors.image && <p className="errors">{errors.image}</p>}
 					<hr />
+					<div className="butt">
+						<button type="submit" className="pageButt" style={{ alignSelf: "center" }}>
+							Update a Spot
+						</button>
+					</div>
 				</form>
-					<button type="submit" className="pageButt">Update a Spot</button>
 			</div>
 		</div>
 	);

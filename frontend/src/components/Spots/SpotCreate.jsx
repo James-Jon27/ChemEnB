@@ -54,8 +54,10 @@ export default function SpotCreate() {
 					name,
 					description,
 					price,
+					lat: parseFloat(1.0),
+					lng: parseFloat(-1.0),
 				},
-				images
+				images[0]
 			)
 		);
 
@@ -140,7 +142,9 @@ export default function SpotCreate() {
 					<input type="text" placeholder="Image URL" onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>
 					{errors.image && <p className="errors">{errors.image}</p>}
 					<hr />
-					<button className="pageButt">Create Spot</button>
+					<div className="butt">
+						<button className="pageButt">Create Spot</button>
+					</div>
 				</form>
 			</div>
 		</div>

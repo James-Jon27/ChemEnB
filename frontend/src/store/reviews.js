@@ -58,22 +58,19 @@ export const getUserReviews = () => async (dispatch) => {
 };
 
 export const createReview = (review, spotId) => async (dispatch) => {
-	try {
 		const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
 			method: "POST",
 			body: JSON.stringify(review),
 		});
-		if (res.ok) {
+		if (res) {
 			const data = await res.json();
 			dispatch(create(data));
+			return data;
 		} else {
-			const errorData = await res.json();
-			throw new Error(errorData.message);
+			const err = await res.json();
+			throw new Error(err.message);
 		}
-	} catch (error) {
-		console.error(error);
-		throw error;
-	}
+
 };
 
 export const deleteReview = (id) => async (dispatch) => {

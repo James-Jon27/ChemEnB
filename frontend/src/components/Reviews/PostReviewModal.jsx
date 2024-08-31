@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./Reviews.css";
 import { useDispatch } from "react-redux";
 import { createReview } from "../../store/reviews";
+import "./ReviewModal.css";
 
 export default function PostReviewModal({ spotId }) {
 	const dispatch = useDispatch();
@@ -10,26 +11,22 @@ export default function PostReviewModal({ spotId }) {
 	const [hoveredStars, setHoveredStars] = useState(null);
 	const [errors, setErrors] = useState({});
 
-	const handleSubmit = (e) => {
-		e.PreventDefault();
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 
 		setErrors({});
-		return dispatch(createReview({ review, stars }, spotId)).catch(async (res) => {
-			const data = await res.json();
-			if (data.errors) {
-				setErrors(data.errors);
-			}
-		});
+		let rev = { review: review, stars: stars };
+		const res = await dispatch(createReview(rev, spotId));
+		if(res){
+			return res;
+		}
 	};
 
 	const handleMouseEnter = (index) => setHoveredStars(index);
-	const disabled = () => review.length < 10 || !stars ? true : false;
+	const disabled = () => (review.length < 10 || !stars ? true : false);
 	const handleClick = (index) => setStars(index);
 
-	console.log(hoveredStars, "HS");
-	console.log(stars, "S");
-
-	const star = (i, st) => (i <= st ? { color: "pink" } : { color: "dimgrey" });
+	const star = (i, st) => (i <= st ? { color: "brown" } : { color: "white" });
 
 	return (
 		<div className="reviewModal">
@@ -45,7 +42,7 @@ export default function PostReviewModal({ spotId }) {
 					))}
 					STARS
 				</div>
-				<button className="lIButt" type="submit" disabled={disabled}>
+				<button className="lIButt" type="submit" disabled={disabled()}>
 					Submit Your Review
 				</button>
 			</form>

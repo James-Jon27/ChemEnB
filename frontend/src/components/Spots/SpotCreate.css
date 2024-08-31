@@ -2,6 +2,12 @@ html, body, div {
     font-family: 'Times New Roman', Times, serif;
 }
 
+.text {
+	width: 100%;
+	max-width: 600px;
+	text-align: left;
+}
+
 .create {
 	display: flex;
 	flex-direction: column;
@@ -13,6 +19,8 @@ html, body, div {
 	width: 100%;
 	max-width: 600px;
 	text-align: left;
+	align-self: center;
+	justify-content: center;
 }
 
 .spot-form label {
@@ -25,6 +33,7 @@ html, body, div {
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 10px;
+	align-content: center;
 }
 
 .spot-form input,
@@ -38,9 +47,15 @@ html, body, div {
     border: solid 1px brown;
 }
 
+.butt {
+	margin-top: auto;
+	display: flex;
+	justify-content: center;
+}
+
 .pageButt {
     display: flex;
-    justify-self: center;
+    justify-content: center;
 	align-self: center;
 	padding: 10px 20px;
 	background-color: brown;

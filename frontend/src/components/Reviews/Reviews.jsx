@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getReviews } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
-import "./Reviews.css"
+import "./Reviews.css";
 import PostReviewModal from "./PostReviewModal";
-import DeleteFormModal from "../DeleteFormModal"
+import DeleteFormModal from "../DeleteFormModal";
 
 export default function Reviews() {
 	const dispatch = useDispatch();
 	const allReviews = useSelector((state) => state.reviews);
 	const sessionUser = useSelector((state) => state.session.user);
-	const owner = useSelector(state => state.spots.detail.ownerId)
+	const owner = useSelector((state) => state.spots.detail.ownerId);
 
 	const spotReviews = Object.values(allReviews);
 	const reviews = [];
@@ -23,21 +23,26 @@ export default function Reviews() {
 		dispatch(getReviews(id));
 	}, [dispatch, id]);
 
-	const users = reviews.map(({User}) => User.id)
+	const users = (id) => {
+		if(reviews.length > 1) {
+			let user = reviews.map(({ User }) => User.id);
+			return user.includes(id);
+		} else return false;
+	}
 
 	if (!reviews) {
 		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;
 	} else if (reviews.length < 1) {
 		return (
 			<div>
-				<button className="pageButt">Post Your Review</button>
+				{sessionUser && sessionUser.id !== owner && users(sessionUser.id) && <OpenModalButton buttonText="Post Your Review" modalComponent={<PostReviewModal spotId={id} />} />}
 				<h4>Be the first to post a review!</h4>
 			</div>
 		);
 	} else {
 		return (
 			<div>
-				{sessionUser && sessionUser.id !== owner && !users.includes(sessionUser.id) && <OpenModalButton buttonText="Post Your Review" modalComponent={<PostReviewModal spotId={id} />} />}
+				{sessionUser && sessionUser.id !== owner && !users(sessionUser.id) && <OpenModalButton buttonText="Post Your Review" modalComponent={<PostReviewModal spotId={id} />} />}
 				{reviews.map(({ id, review, createdAt, User }) => {
 					let date = createdAt.split("-");
 					let year = date[0];
@@ -62,7 +67,7 @@ export default function Reviews() {
 								<h4>{User.firstName}</h4>
 								<h5>{date}</h5>
 								<p>{review}</p>
-								{sessionUser && sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />} />}
+								<div>{sessionUser && sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />} />}</div>
 							</span>
 						</div>
 					);
