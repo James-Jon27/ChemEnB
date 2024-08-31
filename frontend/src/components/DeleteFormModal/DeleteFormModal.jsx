@@ -2,7 +2,6 @@ import { useModal } from "../../context/Modal";
 import { useDispatch } from "react-redux";
 import { deleteSpot } from "../../store/spots";
 import { deleteReview } from "../../store/reviews";
-import { useNavigate } from "react-router-dom";
 
 export default function DeleteFormModal ({id, item}) {
     const {closeModal} = useModal();
