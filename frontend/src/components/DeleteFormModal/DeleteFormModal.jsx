@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 export default function DeleteFormModal ({id, item}) {
     const {closeModal} = useModal();
     const dispatch = useDispatch();
-    const nav = useNavigate()
     const del = async (e) => {
         e.preventDefault()
 
