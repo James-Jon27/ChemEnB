@@ -2,10 +2,12 @@ import { useModal } from "../../context/Modal";
 import { useDispatch } from "react-redux";
 import { deleteSpot } from "../../store/spots";
 import { deleteReview } from "../../store/reviews";
+import { useNavigate } from "react-router-dom";
 
 export default function DeleteFormModal ({id, item}) {
     const {closeModal} = useModal();
     const dispatch = useDispatch();
+    const nav = useNavigate()
     const del = async (e) => {
         e.preventDefault()
 
@@ -13,11 +15,13 @@ export default function DeleteFormModal ({id, item}) {
         const deletion = await dispatch(deleteSpot(id))
         if(deletion) {
             closeModal()
+            nav(`/spots/current`)
         }
     } else if (item === "Review") {
         const deletion = await dispatch(deleteReview(id));
         if(deletion) {
             closeModal()
+            nav(`spots/${id}`)
         }
     }
     }
