@@ -15,7 +15,7 @@ function OpenModalButton({
 		if (typeof onButtonClick === "function") onButtonClick();
 	};
 
-	if (buttonText === "Delete" || buttonText === "Post Your Review") {
+	if (buttonText === "Delete" || buttonText === "Post Your Review" || buttonText === "Update") {
 		return (
 			<button className="pageButt" style={{marginBottom : "15px"}} onClick={onClick}>
 				{buttonText}

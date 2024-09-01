@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getUserReviews } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
 import DeleteFormModal from "../DeleteFormModal";
+import UpdateReviewModal from "./UpdateReviewModal";
 
 export default function UserReviews() {
 	const dispatch = useDispatch();
@@ -50,15 +51,13 @@ export default function UserReviews() {
 					};
 					date = `${month[date[1]]}, ${year}`;
 					return (
-						<div key={id} style={{ margin: "20px", marginLeft : "0px" }}>
+						<div key={id} style={{ margin: "20px", marginLeft: "0px" }}>
 							<span>
 								<h4>{Spot.name}</h4>
 								<h5>{date}</h5>
 								<p>{review}</p>
 								<div className="butts" style={{ margin: "12px" }}>
-									<Link to={`/spots/${id}/edit`}>
-										<button className="pageButt">Update</button>
-									</Link>
+									<OpenModalButton buttonText="Update" modalComponent={<UpdateReviewModal spotId={id} />} />
 									{sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />} />}
 								</div>
 							</span>

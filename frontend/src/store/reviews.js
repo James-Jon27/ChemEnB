@@ -49,7 +49,7 @@ export const getUserReviews = () => async (dispatch) => {
 			let data = await res.json();
 			data = data.Reviews;
 			dispatch(load(data));
-			return data.Reviews;
+			return data;
 		}
 	} catch (e) {
 		console.error(e);
@@ -71,6 +71,21 @@ export const createReview = (review, spotId) => async (dispatch) => {
 			throw new Error(err.message);
 		}
 
+};
+
+export const updateReview = (review, reviewId) => async (dispatch) => {
+	const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+		method: "PUT",
+		body: JSON.stringify(review),
+	});
+	if (res) {
+		const data = await res.json();
+		dispatch(create(data));
+		return data;
+	} else {
+		const err = await res.json();
+		throw new Error(err.message);
+	}
 };
 
 export const deleteReview = (id) => async (dispatch) => {
