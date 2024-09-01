@@ -1,55 +1,66 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getReviews } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
-import "./Reviews.css";
 import PostReviewModal from "./PostReviewModal";
 import DeleteFormModal from "../DeleteFormModal";
+import "./Reviews.css";
+import { getOneSpot } from "../../store/spots";
 
 export default function Reviews() {
 	const dispatch = useDispatch();
+	const { id } = useParams();
 	const allReviews = useSelector((state) => state.reviews);
 	const sessionUser = useSelector((state) => state.session.user);
 	const owner = useSelector((state) => state.spots.detail.ownerId);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const fetch = async () => {
+			dispatch(getReviews(id));
+			dispatch(getOneSpot(id));
+			setLoading(false);
+		};
+
+		fetch();
+	}, [dispatch, id]);
 
 	const spotReviews = Object.values(allReviews);
 	const reviews = [];
 	for (const review of spotReviews) {
 		reviews.push(review);
 	}
-	const { id } = useParams();
-	useEffect(() => {
-		dispatch(getReviews(id));
-	}, [dispatch, id]);
 
 	const users = (id) => {
-		if (reviews.length > 0) {
-			let user = reviews.map(({ User }) => {
-				console.log(User)
-				if (User) {
-					User.id;
-				} else return 0
-			});
-			return !user.includes(id);
-		} else return false;
+		return reviews.some(({ User }) => User && User.id === id);
 	};
+
+	const refetch = async () => {
+		setLoading(true);
+		await dispatch(getReviews(id));
+		setLoading(false);
+	};
+	
+	if(loading) {
+		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;
+	}
 
 	if (!reviews) {
 		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;
 	} else if (reviews.length < 1) {
 		return (
 			<div>
-				{sessionUser && sessionUser.id !== owner && users(sessionUser.id) && <OpenModalButton buttonText="Post Your Review" modalComponent={<PostReviewModal spotId={id} />} />}
+				{sessionUser && sessionUser.id !== owner && !users(sessionUser.id) && <OpenModalButton buttonText="Post Your Review" modalComponent={<PostReviewModal spotId={id} onReviewPost={refetch} />} />}
 				<h4>Be the first to post a review!</h4>
 			</div>
 		);
 	} else {
 		return (
 			<div>
-				{sessionUser && sessionUser.id !== owner && !users(sessionUser.id) && <OpenModalButton buttonText="Post Your Review" modalComponent={<PostReviewModal spotId={id} />} />}
+				{sessionUser && sessionUser.id !== owner && !users(sessionUser.id) && <OpenModalButton buttonText="Post Your Review" modalComponent={<PostReviewModal spotId={id} onReviewPost={refetch} />} />}
 				{reviews.map(({ id, review, createdAt, User }) => {
-					if(User) {
+					if (User) {
 						let date = createdAt.split("-");
 						let year = date[0];
 						let month = {
@@ -73,12 +84,10 @@ export default function Reviews() {
 									<h4>{User.firstName}</h4>
 									<h5>{date}</h5>
 									<p>{review}</p>
-									<div>{sessionUser && sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} />} />}</div>
+									<div>{sessionUser && sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} onReviewDelete={refetch} />} />}</div>
 								</span>
 							</div>
 						);
-					} else {
-						return;
 					}
 				})}
 			</div>

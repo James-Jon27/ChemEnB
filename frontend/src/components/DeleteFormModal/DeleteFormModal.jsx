@@ -20,7 +20,6 @@ export default function DeleteFormModal ({id, item}) {
             closeModal()
         }
     }
-    window.location.reload();
     }
 
     return (

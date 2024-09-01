@@ -1,24 +1,45 @@
-import { useEffect } from "react";
+import { useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as spotActions from "../../store/spots";
 import { MdStars } from "react-icons/md";
 import Reviews from "../Reviews";
 import "./SpotDetails.css";
+import { getReviews } from "../../store/reviews";
 
 export default function SpotDetails() {
 	const dispatch = useDispatch();
 	const { id } = useParams();
 	const spot = useSelector((state) => state.spots.detail);
+	const review = useSelector((state) => Object.values(state.reviews));
+
 	useEffect(() => {
-		dispatch(spotActions.getOneSpot(id));
+		const fetch = async () => {
+			dispatch(spotActions.getOneSpot(id));
+			dispatch(getReviews(id));
+		};
+
+		fetch();
 	}, [dispatch, id]);
+
+	useEffect(() => {
+		const revCount = async () => {
+			if(spot && review.length !== spot.numReviews) {
+				await dispatch(spotActions.getOneSpot(id));
+				await dispatch(getReviews(id))
+			}
+		};
+		if (spot) {
+			revCount();
+		}
+	}), [spot, review.length, dispatch, id];
 
 	if (!spot) {
 		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;
 	}
+	const { name, city, state, country, SpotImages, Owner, description, price, avgStarRating, numReviews } = spot;
 
-	const { name, city, state, country, SpotImages, Owner, description, price, avgStarRating, numReviews } = spot;	const rating = (num) => {
+	const rating = (num) => {
 		if (num > 1) {
 			return (
 				<>
@@ -37,25 +58,25 @@ export default function SpotDetails() {
 	};
 
 	const srcImg = (images) => {
-		if(!images) {
-			return ""
+		if (!images) {
+			return "";
 		} else {
-			return images[0].url
+			return images[0].url;
 		}
 	};
 
 	return (
 		<div>
 			<h1>{name}</h1>
-			<span style={{fontWeight: "bold"}}>
+			<span style={{ fontWeight: "bold" }}>
 				{city}, {state}, {country}
 			</span>
-			<div className="spot-images" style={{paddingTop :"10px"}}>
+			<div className="spot-images" style={{ paddingTop: "10px" }}>
 				<div className="bigImg">
 					<img src={srcImg(SpotImages)} alt="previewImage" />
 				</div>
 				<div className="the-rest">
-					{SpotImages.slice(1).map(({ id, url}) => {
+					{SpotImages.slice(1).map(({ id, url }) => {
 						return (
 							<div key={id} className="IMAGE">
 								<img src={url} alt={name} />

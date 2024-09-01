@@ -21,7 +21,6 @@ export default function PostReviewModal({ spotId }) {
 		const res = await dispatch(createReview(rev, spotId));
 		if(res){
 			closeModal()
-			window.location.reload();
 			return res;
 		}
 	};
