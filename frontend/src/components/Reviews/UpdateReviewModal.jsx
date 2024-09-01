@@ -35,7 +35,6 @@ export default function UpdateReviewModal({ spotId }) {
 		const res = await dispatch(updateReview(rev, spotId));
 		if (res) {
 			closeModal();
-			window.location.reload();
 			return res;
 		}
 	};

@@ -5,6 +5,7 @@ const LOAD = "spots/LOAD";
 const LOAD_ONE = "spots/DETAILS";
 const MANAGE = "spots/MANAGE";
 const DELETE = "spots/DELETE";
+const IMAGE = "spots/POST_IMAGE"
 
 const load = (spots) => {
 	return {
@@ -33,6 +34,14 @@ const deleteMe = (id) => {
 		payload: id,
 	};
 };
+
+const imgs = (imagesArr, spotId) => {
+	return {
+		type: IMAGE,
+		payload: imagesArr,
+		id: spotId
+	}
+}
 
 export const getSpot = () => async (dispatch) => {
 	const res = await csrfFetch(`/api/spots`);
@@ -125,6 +134,20 @@ export const deleteSpot = (id) => async (dispatch) => {
 	}
 };
 
+export const postImages = (images, spotId) => async (dispatch) => {
+	for (const image of images) {
+		const res = await csrfFetch(`/api/spots/${spotId}/images`, {
+			method: "POST",
+			body: JSON.stringify(image)
+		});
+	
+		if(res.ok) {
+			const data = await res.json();
+			dispatch(imgs(data, spotId))
+		}
+	}
+}
+
 export default function spotsReducer(state = initialState, action) {
 	switch (action.type) {
 		case LOAD: {
@@ -143,6 +166,14 @@ export default function spotsReducer(state = initialState, action) {
 			const ap = action.payload;
 			const newState = { ...state };
 			newState[ap.id] = action.payload;
+			return newState;
+		}
+
+		case IMAGE : {
+			const ap = action.payload;
+			const newState = {...state};
+			newState[ap.id].SpotImages.push(action.payload)
+			console.log(newState[ap.id].SpotImages)
 			return newState;
 		}
 

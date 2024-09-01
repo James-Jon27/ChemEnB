@@ -4,7 +4,6 @@
     justify-content: start;
     align-items: start;
     margin-bottom: 20px;
-    margin-top: 5px;
     gap: 5px;
 }
 
@@ -20,6 +19,7 @@
 	color: bisque;
 	border: none;
 	cursor: pointer;
+    margin-bottom: 0;
 }
 
 .stars {

@@ -5,8 +5,8 @@ import { getReviews } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
 import PostReviewModal from "./PostReviewModal";
 import DeleteFormModal from "../DeleteFormModal";
-import "./Reviews.css";
 import { getOneSpot } from "../../store/spots";
+import "./Reviews.css";
 
 export default function Reviews() {
 	const dispatch = useDispatch();
@@ -41,8 +41,8 @@ export default function Reviews() {
 		await dispatch(getReviews(id));
 		setLoading(false);
 	};
-	
-	if(loading) {
+
+	if (loading) {
 		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;
 	}
 
@@ -59,37 +59,39 @@ export default function Reviews() {
 		return (
 			<div>
 				{sessionUser && sessionUser.id !== owner && !users(sessionUser.id) && <OpenModalButton buttonText="Post Your Review" modalComponent={<PostReviewModal spotId={id} onReviewPost={refetch} />} />}
-				{reviews.map(({ id, review, createdAt, User }) => {
-					if (User) {
-						let date = createdAt.split("-");
-						let year = date[0];
-						let month = {
-							"01": "January",
-							"02": "February",
-							"03": "March",
-							"04": "April",
-							"05": "May",
-							"06": "June",
-							"07": "July",
-							"08": "August",
-							"09": "September",
-							10: "October",
-							11: "November",
-							12: "December",
-						};
-						date = `${month[date[1]]}, ${year}`;
-						return (
-							<div key={id}>
-								<span className="reviews">
-									<h4>{User.firstName}</h4>
-									<h5>{date}</h5>
-									<p>{review}</p>
-									<div>{sessionUser && sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} onReviewDelete={refetch} />} />}</div>
-								</span>
-							</div>
-						);
-					}
-				})}
+				<div style={{display: "flex", flexDirection: "column-reverse"}}>
+					{reviews.map(({ id, review, createdAt, User }) => {
+						if (User) {
+							let date = createdAt.split("-");
+							let year = date[0];
+							let month = {
+								"01": "January",
+								"02": "February",
+								"03": "March",
+								"04": "April",
+								"05": "May",
+								"06": "June",
+								"07": "July",
+								"08": "August",
+								"09": "September",
+								10: "October",
+								11: "November",
+								12: "December",
+							};
+							date = `${month[date[1]]}, ${year}`;
+							return (
+								<div key={id}>
+									<span className="reviews">
+										<h4>{User.firstName}</h4>
+										<h5>{date}</h5>
+										<p>{review}</p>
+										<div>{sessionUser && sessionUser.id === User.id && <OpenModalButton buttonText="Delete" modalComponent={<DeleteFormModal id={id} item={"Review"} onReviewDelete={refetch} />} />}</div>
+									</span>
+								</div>
+							);
+						}
+					})}
+				</div>
 			</div>
 		);
 	}

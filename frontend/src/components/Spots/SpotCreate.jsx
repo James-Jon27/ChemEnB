@@ -1,7 +1,7 @@
 // https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.usgbc.org%2Fsites%2Fdefault%2Ffiles%2F2022-12%2Fromney%2520hall.jpg&f=1&nofb=1&ipt=c602cdee39d31c8e22c2dff6a64d0bc4d0d4450ca7ffa3b025264fa0df4359a9&ipo=images
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createSpot } from "../../store/spots";
+import { createSpot, postImages } from "../../store/spots";
 import { useNavigate } from "react-router-dom";
 import "./SpotCreate.css";
 
@@ -44,6 +44,7 @@ export default function SpotCreate() {
 		if (Object.keys(errors).length > 1) {
 			return;
 		}
+		
 		const newSpot = await dispatch(
 			createSpot(
 				{
@@ -61,8 +62,15 @@ export default function SpotCreate() {
 			)
 		);
 
+		await dispatch(postImages(images, newSpot.id))
+			.catch(async (res) => {
+				console.log(res);
+			})
+
 		nav(`/spots/${newSpot.id}`);
 	};
+
+	console.log(images);
 
 	return (
 		<div>
