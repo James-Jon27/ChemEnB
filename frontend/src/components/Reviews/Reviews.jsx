@@ -31,7 +31,7 @@ export default function Reviews() {
 					User.id;
 				} else return 0
 			});
-			return user.includes(id);
+			return !user.includes(id);
 		} else return false;
 	};
 
