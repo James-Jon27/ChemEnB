@@ -122,6 +122,7 @@ function ProfileButton({ user }) {
 			</div>
 		</div>
 	);
+
 }
 
 export default ProfileButton;
