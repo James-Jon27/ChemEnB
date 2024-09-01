@@ -35,9 +35,9 @@ export default function SpotCreate() {
 		if (description.length < 30) {
 			err.description = "Description needs 30 or more characters";
 		}
-if(description.length > 100) {
-err.description = "Description can not exceed 100 characters"
-}
+		if (description.length > 100) {
+			err.description = "Description can not exceed 100 characters";
+		}
 		if (!images[0]) err.previewImage = "Preview Image is required";
 		if (!images.every(({ url }) => url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith("images") || url === "") && images.length > 1) err.image = "Image URL must end in .png, .jpg, or .jpeg";
 		if (err.image || err.previewImage) setImages([]);
@@ -47,7 +47,7 @@ err.description = "Description can not exceed 100 characters"
 		if (Object.keys(errors).length > 1) {
 			return;
 		}
-		
+
 		const newSpot = await dispatch(
 			createSpot(
 				{
@@ -65,10 +65,9 @@ err.description = "Description can not exceed 100 characters"
 			)
 		);
 
-		await dispatch(postImages(images, newSpot.id))
-			.catch(async (res) => {
-				console.log(res);
-			})
+		await dispatch(postImages(images, newSpot.id)).catch(async (res) => {
+			console.log(res);
+		});
 
 		nav(`/spots/${newSpot.id}`);
 	};
