@@ -1,11 +1,11 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as spotActions from "../../store/spots";
 import { MdStars } from "react-icons/md";
 import Reviews from "../Reviews";
-import "./SpotDetails.css";
 import { getReviews } from "../../store/reviews";
+import "./SpotDetails.css";
 
 export default function SpotDetails() {
 	const dispatch = useDispatch();
@@ -24,15 +24,16 @@ export default function SpotDetails() {
 
 	useEffect(() => {
 		const revCount = async () => {
-			if(spot && review.length !== spot.numReviews) {
+			if (spot && review.length !== spot.numReviews) {
 				await dispatch(spotActions.getOneSpot(id));
-				await dispatch(getReviews(id))
+				await dispatch(getReviews(id));
 			}
 		};
 		if (spot) {
 			revCount();
 		}
-	}), [spot, review.length, dispatch, id];
+	}),
+		[spot, review.length, dispatch, id];
 
 	if (!spot) {
 		return <h1 style={{ color: "brown", textAlign: "center" }}>Loading...</h1>;

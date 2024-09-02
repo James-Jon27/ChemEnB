@@ -48,7 +48,16 @@
 }
 
 .desc {
+	display: flex;
+	flex-direction: column;
 	width: 70%;
+}
+
+.desc p {
+	display: flex;
+	flex-wrap: wrap;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 .pR,

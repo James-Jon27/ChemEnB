@@ -19,11 +19,12 @@ export default function PostReviewModal({ spotId }) {
 		setErrors({});
 		let rev = { review: review, stars: stars };
 		const res = await dispatch(createReview(rev, spotId));
-		if(res.ok){
+		if(res){
 			closeModal()
 			return res;
 		} else {
-			setErrors(res.errors)
+			setErrors(res)
+			return errors;
 		}
 	};
 
@@ -37,7 +38,6 @@ export default function PostReviewModal({ spotId }) {
 		<div className="reviewModal">
 			<h1>How was your stay?</h1>
 			<form onSubmit={handleSubmit}>
-				{errors.message && <p className="errors">{errors.message}</p>}
 				<textarea placeholder="Leave your review here..." value={review} onChange={(e) => setReview(e.target.value)}></textarea>
 				<div className="star-rating">
 					{[1, 2, 3, 4, 5].map((index) => (

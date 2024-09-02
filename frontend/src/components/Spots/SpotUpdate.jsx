@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOneSpot, getSpot, updateSpot } from "../../store/spots";
+import { getOneSpot, getSpot, postImages, updateSpot } from "../../store/spots";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function SpotUpdate() {
@@ -40,7 +40,7 @@ export default function SpotUpdate() {
 			setPrice(spot.price || "");
 			setDescription(spot.description || "");
 			setName(spot.name || "");
-			setImages(spot.SpotImages.url || []);
+			setImages(spot.SpotImages || []);
 		}
 	}, [spot, setAddress]);
 
@@ -58,15 +58,20 @@ export default function SpotUpdate() {
 		if (description.length < 30) {
 			err.description = "Description needs 30 or more characters";
 		}
+		if (description.length > 255) {
+			err.description = "Description can not exceed 255 characters";
+		}
 		if (!images[0]) err.previewImage = "Preview Image is required";
 		if (!images.every(({ url }) => url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith("images") || url === "") && images.length > 1) err.image = "Image URL must end in .png, .jpg, or .jpeg";
 		if (err.image || err.previewImage) setImages([]);
 
 		setErrors(err);
 
-		if (Object.keys(errors)) {
-			return;
+		if (Object.keys(errors) > 0) {
+			console.error(errors)
+			return errors;
 		}
+
 		const spot = await dispatch(
 			updateSpot(
 				{
@@ -80,9 +85,12 @@ export default function SpotUpdate() {
 					lat: parseFloat(1.0),
 					lng: parseFloat(-1.0),
 				},
-				images[0]
+				images[0],
+				id
 			)
 		);
+
+		await dispatch(postImages(images.splice(1), spot.id))
 
 		nav(`/spots/${spot.id}`);
 	};
@@ -153,15 +161,15 @@ export default function SpotUpdate() {
 					<hr />
 					<h2 style={{ marginBottom: "0" }}>Liven up your spot with photos</h2>
 					<p style={{ paddingTop: "0", paddingBottom: "0", marginTop: "2px", marginBottom: "0" }}>Submit a link to at least one photo to publish your spot</p>
-					<input type="text" placeholder="Preview Image URL" onChange={(e) => setImages([...images, { url: e.target.value, preview: true }])}></input>
+					<input type="text" placeholder="Preview Image URL" value={images[0]?.url} onSubmit={(e) => setImages([...images, { url: e.target.value, preview: true }])}></input>
 					{errors.previewImage && <p className="errors">{errors.previewImage}</p>}
-					<input type="text" placeholder="Image URL" onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>
+					<input type="text" placeholder="Image URL" value={images[1]?.url || ""} onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>
 					{errors.image && <p className="errors">{errors.image}</p>}
-					<input type="text" placeholder="Image URL" onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>
+					<input type="text" placeholder="Image URL" value={images[2]?.url || ""} onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>
 					{errors.image && <p className="errors">{errors.image}</p>}
-					<input type="text" placeholder="Image URL" onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>
+					<input type="text" placeholder="Image URL" value={images[3]?.url || ""} onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>
 					{errors.image && <p className="errors">{errors.image}</p>}
-					<input type="text" placeholder="Image URL" onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>
+					<input type="text" placeholder="Image URL" value={images[4]?.url || ""} onChange={(e) => setImages([...images, { url: e.target.value, preview: false }])}></input>
 					{errors.image && <p className="errors">{errors.image}</p>}
 					<hr />
 					<div className="butt">

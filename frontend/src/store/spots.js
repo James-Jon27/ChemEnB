@@ -1,11 +1,10 @@
 import { csrfFetch } from "./csrf";
-
 const initialState = {};
 const LOAD = "spots/LOAD";
 const LOAD_ONE = "spots/DETAILS";
 const MANAGE = "spots/MANAGE";
 const DELETE = "spots/DELETE";
-const IMAGE = "spots/POST_IMAGE"
+const IMAGE = "spots/POST_IMAGE";
 
 const load = (spots) => {
 	return {
@@ -39,9 +38,9 @@ const imgs = (imagesArr, spotId) => {
 	return {
 		type: IMAGE,
 		payload: imagesArr,
-		id: spotId
-	}
-}
+		id: spotId,
+	};
+};
 
 export const getSpot = () => async (dispatch) => {
 	const res = await csrfFetch(`/api/spots`);
@@ -77,8 +76,8 @@ export const getOneSpot = (id) => async (dispatch) => {
 export const createSpot = (spot, prevImg) => async (dispatch) => {
 	const res = await csrfFetch(`/api/spots`, {
 		method: "POST",
-		headers : {
-			"Content-Type" : "application/json"
+		headers: {
+			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(spot),
 	});
@@ -87,9 +86,11 @@ export const createSpot = (spot, prevImg) => async (dispatch) => {
 		const spot = await res.json();
 		const imgRes = await csrfFetch(`/api/spots/${spot.id}/images`, {
 			method: "POST",
-			body : JSON.stringify(prevImg)
+			body: JSON.stringify(prevImg),
 		});
-		spot.previewImage = await imgRes.json();
+		const img = await imgRes.json();
+		console.log(img);
+		spot.previewImage = {url : img}
 		dispatch(manage(spot));
 		return spot;
 	} else {
@@ -98,8 +99,8 @@ export const createSpot = (spot, prevImg) => async (dispatch) => {
 	}
 };
 
-export const updateSpot = (spot, prevImg) => async (dispatch) => {
-	const res = await csrfFetch(`/api/spots`, {
+export const updateSpot = (spot, prevImg, id) => async (dispatch) => {
+	const res = await csrfFetch(`/api/spots/${id}`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",
@@ -136,17 +137,18 @@ export const deleteSpot = (id) => async (dispatch) => {
 
 export const postImages = (images, spotId) => async (dispatch) => {
 	for (const image of images) {
+		console.log(image)
 		const res = await csrfFetch(`/api/spots/${spotId}/images`, {
 			method: "POST",
-			body: JSON.stringify(image)
+			body: JSON.stringify(image),
 		});
-	
-		if(res.ok) {
+
+		if (res.ok) {
 			const data = await res.json();
-			dispatch(imgs(data, spotId))
+			dispatch(imgs(data, spotId));
 		}
 	}
-}
+};
 
 export default function spotsReducer(state = initialState, action) {
 	switch (action.type) {
@@ -169,11 +171,9 @@ export default function spotsReducer(state = initialState, action) {
 			return newState;
 		}
 
-		case IMAGE : {
-			const ap = action.payload;
-			const newState = {...state};
-			newState[ap.id].SpotImages.push(action.payload)
-			console.log(newState[ap.id].SpotImages)
+		case IMAGE: {
+			const newState = { ...state };
+			newState[action.id].SpotImages = action.payload;
 			return newState;
 		}
 
