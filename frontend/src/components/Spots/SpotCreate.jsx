@@ -67,14 +67,12 @@ export default function SpotCreate() {
 		);
 
 		await dispatch(postImages(images.splice(1), newSpot.id)).catch(async (res) => {
-			console.log(res);
+			return res;
 		});
 
 		nav(`/spots/${newSpot.id}`);
 	};
-
-	console.log(images);
-
+	
 	return (
 		<div>
 			<div className="create" style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>

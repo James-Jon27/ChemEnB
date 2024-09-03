@@ -89,7 +89,6 @@ export const createSpot = (spot, prevImg) => async (dispatch) => {
 			body: JSON.stringify(prevImg),
 		});
 		const img = await imgRes.json();
-		console.log(img);
 		spot.previewImage = {url : img}
 		dispatch(manage(spot));
 		return spot;
@@ -137,7 +136,6 @@ export const deleteSpot = (id) => async (dispatch) => {
 
 export const postImages = (images, spotId) => async (dispatch) => {
 	for (const image of images) {
-		console.log(image)
 		const res = await csrfFetch(`/api/spots/${spotId}/images`, {
 			method: "POST",
 			body: JSON.stringify(image),
