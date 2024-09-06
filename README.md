@@ -8,11 +8,11 @@ viewing detailed information, and managing listings.
 
 ### Key Features
 
-1. **Landing Page - List of All Spots**: View a tile list of all rental spots, including thumbnails, location, price, and ratings.
-2. **Spot Details**: Explore detailed information about each spot, including images, location, host details, and price.
-3. **Ratings and Reviews**: See ratings and reviews for each spot and post your own reviews.
-4. **Create, Update, and Delete Spots**: Manage your own listings by creating, updating, or deleting spots.
-5. **Post and Manage Reviews**: Leave reviews for spots and manage your own reviews.
+1. **Landing Page - List of All Labs**: View a tile list of all rental labs, including thumbnails, location, price, and ratings.
+2. **Lab Details**: Explore detailed information about each lab, including images, location, host details, and price.
+3. **Ratings and Reviews**: See ratings and reviews for each lab and post your own reviews.
+4. **Create, Update, and Delete Labs**: Manage your own listings by creating, updating, or deleting labs.
+5. **Post and Manage Reviews**: Leave reviews for labs and manage your own reviews.
 
 ![ChemEnB Showcase](./ChemEnB.png)
 
